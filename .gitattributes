@@ -1,0 +1,12 @@
+* text=auto
+
+.editorconfig text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+LICENCE text eol=lf
+*.js text eol=lf
+*.styl text eol=lf
+*.njk text eol=lf
+*.ejs text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
