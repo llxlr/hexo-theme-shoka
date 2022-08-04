@@ -9,6 +9,7 @@ open_graph:
 
 # Assets
 statics: / #//cdn.jsdelivr.net/gh/username/RepositoryName@latest/
+cdn: cdn.jsdelivr.net
 css: css
 js: js
 images: images
@@ -54,6 +55,13 @@ fireworks:
 
 font:
   enable: true
+  # Font Host
+  # host: fonts.googleapis.com
+  # host: fonts.googleapis.cn
+  # host: fonts.loli.net
+  # host: fonts.geekzu.org
+  host: fonts.sourcegcdn.com
+
   # Font options:
   # `external: true` will load this font family from `host` above.
   # `family: Times New Roman`. Without any quotes.

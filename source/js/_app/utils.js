@@ -6,6 +6,17 @@ const getDocHeight = function () {
   return $('main > .inner').offsetHeight;
 }
 
+const getHostname = function(str) {
+  if (str.startsWith('//')) {
+    str = 'http:' + str;
+  }
+  if (!str.startsWith('http')) {
+    str = 'http://' + str;
+  }
+  var url = new URL(str);
+  return url.hostname;
+}
+
 const getScript = function(url, callback, condition) {
   if (condition) {
     callback();
@@ -29,7 +40,7 @@ const getScript = function(url, callback, condition) {
 const assetUrl = function(asset, type) {
   var str = CONFIG[asset][type]
   if(str.indexOf('npm')>-1||str.indexOf('gh')>-1||str.indexOf('combine')>-1)
-    return "//cdn.jsdelivr.net/" + str
+    return `//${getHostname(CONFIG.cdn)}/${str}`
 
   if(str.indexOf('http')>-1)
     return str
