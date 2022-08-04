@@ -20,6 +20,9 @@ favicon:
   #android_manifest: /manifest.json
   #ms_browserconfig: /browserconfig.xml
 
+# theme-color
+theme_color: "#57faff"
+
 # Dark Mode
 # By default, the page judges whether to turn on the dark mode according to the device settings or user selection
 # if `true`, the page will be displayed directly as Dark Mode, unless the user makes another choice
