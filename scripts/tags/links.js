@@ -65,7 +65,7 @@ function linkGrid(args, content) {
 
     result += `<div class="item" title="${item.owner || item.site}"${item.color}>`;
 
-    if (urlparam.protocol && urlparam.hostname !== siteHost) {
+    if (!urlparam.protocol && urlparam.hostname == siteHost) {
       var durl = Buffer.from(item.url).toString('base64');
       result += `<span class="exturl image" data-url="${durl}" data-background-image="${item_image}"></span>
           <div class="info">
