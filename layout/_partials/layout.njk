@@ -8,6 +8,7 @@
   {{ partial('_partials/head/head.njk', {}, {cache: true}) }}
   {{ partial('_partials/head/head_unique.njk') }}
   <title>{% block title %}{% endblock %}{{ alternate + " = " if alternate }}{{ title }}{{ " = "+subtitle if subtitle }}</title>
+  {{ partial('_partials/third-party/google-analytics.njk', {}, {cache: true}) }}
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
   <div id="loading">

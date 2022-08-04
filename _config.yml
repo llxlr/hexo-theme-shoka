@@ -251,7 +251,9 @@ quicklink:
 # ---------------------------------------------------------------
 # analytics & SEO Settings
 # ---------------------------------------------------------------
-baidu_analytics: # <app_id>
+analytics:
+  baidu: # <app_id>
+  google: # <id>
 
 # Disable Baidu transformation on mobile devices.
 disable_baidu_transformation: true
