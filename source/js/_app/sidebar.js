@@ -222,6 +222,15 @@ const headertopdown = function () {
   pageScroll($('#main'));
 }
 
+const chooseLive2dHandle = function () {
+  var live2d = document.getElementById("live2d-widget");
+  if(live2d.style.visibility == "hidden"){
+    live2d.style.visibility = "visible";
+  }else{
+    live2d.style.visibility = "hidden";
+  }
+}
+
 const menuActive = function () {
   $.each('.menu .item:not(.title)', function (element) {
     var target = element.child('a[href]');
