@@ -65,6 +65,8 @@ const siteRefresh = function (reload) {
   vendorJs('copy_tex');
   vendorCss('mermaid');
   vendorJs('chart');
+  vendorCss('heti');
+  vendorJs('heti');
   vendorJs('valine', function() {
     var options = Object.assign({}, CONFIG.valine);
     options = Object.assign(options, LOCAL.valine||{});
@@ -109,6 +111,11 @@ const siteRefresh = function (reload) {
   cardActive()
 
   lazyload.observe()
+
+  if(LOCAL.heti){
+    const heti = new Heti('.heti');
+    heti.autoSpacing();
+  }
 }
 
 const siteInit = function () {
