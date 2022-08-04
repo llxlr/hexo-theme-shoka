@@ -298,3 +298,27 @@ const autoDarkmode = function(){
   }
 }
 
+const getCDNinfo = function(){
+  var cdn = document.getElementById('cdn');
+  if(!cdn){return;}
+  try {
+    fetch('/cdn-cgi/trace').then(function(resp){
+      resp.text().then(function(res){
+        var area = res.match(/colo=(.*?)\n/)[1];
+        fetch('https://cdn.jsdelivr.net/gh/llxlr/cdn/static/areas.json').then(function(resp){
+          resp.json().then(function(data){
+            for(var i in data){
+              if (data[i].colo == area) {
+                var info = data[i].city+', '+data[i].region;
+                console.log(info);
+                cdn.innerHTML = info;
+              }
+            }
+          })
+        })
+      })
+    })
+  } catch(e) {
+    return;
+  }
+}
