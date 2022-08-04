@@ -19,6 +19,7 @@ hexo.extend.generator.register('script', function(locals){
       hidden: theme.images + "/failure.ico"
     },
     darkmode: theme.darkmode,
+    auto_dark: theme.auto_dark,
     auto_scroll: theme.auto_scroll,
     js: {
       valine: theme.vendors.js.valine,
