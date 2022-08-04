@@ -112,6 +112,8 @@ const siteRefresh = function (reload) {
 
   lazyload.observe()
 
+  isOutime() //判断文章时效性
+
   if(LOCAL.heti){
     const heti = new Heti('.heti');
     heti.autoSpacing();

@@ -131,6 +131,10 @@
       gap_fill: "{{ __('quiz.gap_fill') }}",
       mistake: "{{ __('quiz.mistake') }}"
     },{%- endif %}
+    {%- if page.outime === false %}
+    outime: false,{%- else %}outime: true,
+    template: '{{ __("outime.template") }}',
+    {%- endif %}
     ignores : [
       function(uri) {
         return uri.includes('#');

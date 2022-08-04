@@ -37,6 +37,7 @@ hexo.extend.generator.register('script', function(locals){
     },
     loader: theme.loader,
     search : null,
+    outime: theme.outime,
     valine: theme.valine,
     quicklink: {
       timeout : theme.quicklink.timeout,
