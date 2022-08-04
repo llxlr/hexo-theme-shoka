@@ -154,4 +154,6 @@ const siteInit = function () {
 
 window.addEventListener('DOMContentLoaded', siteInit);
 
-console.log('%c Theme.Shoka v' + CONFIG.version + ' %c https://shoka.lostyu.me/ ', 'color: white; background: #e9546b; padding:5px 0;', 'padding:4px;border:1px solid #e9546b;')
+console.log('%c Theme.Shoka v' + CONFIG.version + ' %c https://shoka.lostyu.me ', 'color:#fff;background:linear-gradient(90deg,#d24c60,#d96778);padding:5px 0;', 'color:#000;background:linear-gradient(90deg,#d96778,#ffffff);padding:5px 10px 5px 0px;');
+
+console.log("             -. .\n       _____   ',' ,\n     ,'     ,'   ', ',\n   ,'     ,'      |  |\n   \\       \\       |  |\n     \\ /^\\   \\    ,' ,'\n           \\   \\ ,' ,'      L'Internationale,\n     / ~-.___\\.-'  ,'            Sera le genre humain.\n   /   .______.- ~ \\\n /   /'          \\   \\\n \\./               \\/'\n");
