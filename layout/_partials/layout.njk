@@ -117,6 +117,7 @@
     {%- if page.audio %}audio: {{ page.audio|safedump }},{%- endif %}
     {%- if page.audio === false %}audio: {},{%- endif %}
     {%- if page.fancybox !== false %}fancybox: true,{%- endif %}
+    {%- if page.heti %}heti: true,{%- else %}heti: false,{%- endif %}
     {%- if page.copyright !== false %}
     {%- if page.copyright === true %}nocopy: true,
     copyright: '{{ __("tips.nocopy")}}',{%- else %}

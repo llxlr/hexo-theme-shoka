@@ -25,13 +25,15 @@ hexo.extend.generator.register('script', function(locals){
       valine: theme.vendors.js.valine,
       chart: theme.vendors.js.chart,
       copy_tex: theme.vendors.js.copy_tex,
-      fancybox: theme.vendors.js.fancybox
+      fancybox: theme.vendors.js.fancybox,
+      heti: theme.vendors.js.heti
     },
     css: {
       valine: theme.css + "/comment.css",
       katex: theme.vendors.css.katex,
       mermaid: theme.css + "/mermaid.css",
-      fancybox: theme.vendors.css.fancybox
+      fancybox: theme.vendors.css.fancybox,
+      heti: theme.vendors.css.heti
     },
     loader: theme.loader,
     search : null,
