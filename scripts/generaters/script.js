@@ -26,6 +26,7 @@ hexo.extend.generator.register('script', function(locals){
       chart: theme.vendors.js.chart,
       copy_tex: theme.vendors.js.copy_tex,
       fancybox: theme.vendors.js.fancybox,
+      busuanzi: theme.vendors.js.busuanzi,
       heti: theme.vendors.js.heti
     },
     css: {

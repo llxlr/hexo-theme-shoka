@@ -157,6 +157,7 @@ footer:
   # Dependencies: https://github.com/theme-next/hexo-symbols-count-time
   count: false
   powered: true
+  busuanzi: true # 不蒜子计数
   beian: # ICP
 
 post:
@@ -319,4 +320,5 @@ vendors:
     valine: gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js
     copy_tex: npm/katex@0.12.0/dist/contrib/copy-tex.min.js
     chart: npm/frappe-charts@1.5.0/dist/frappe-charts.min.iife.min.js
+    busuanzi: https://busuanzi.icodeq.com/busuanzi.pure.mini.js
     heti: npm/heti/umd/heti-addon.min.js
