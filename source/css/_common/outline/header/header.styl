@@ -13,6 +13,26 @@
   }
 }
 
+/* 首页下拉箭头 */
+#angle {
+    position: absolute;
+    bottom: 0vh;
+    left: 50%;
+    cursor: pointer;
+    z-index: 5;
+    transform: translateX(-50%);
+}
+@media (max-width: 860px) {
+    #angle {
+        bottom: 0vh;
+    }
+}
+#angle i {
+    font-size: 35px;
+    color: #fff;
+    @extend .up-down;
+}
+
 @import 'image';
 @import 'nav';
 @import 'brand';

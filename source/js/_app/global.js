@@ -14,6 +14,7 @@ const quickBtn = $('#quick');
 const sideBar = $('#sidebar');
 const siteBrand = $('#brand');
 var toolBtn = $('#tool'), toolPlayer, backToTop, goToComment, showContents;
+var angleBtn = $('#angle');
 var siteSearch = $('#search');
 var siteNavHeight, headerHightInner, headerHight;
 var oWinHeight = window.innerHeight;
