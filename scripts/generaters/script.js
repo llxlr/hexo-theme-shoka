@@ -14,6 +14,7 @@ hexo.extend.generator.register('script', function(locals){
     hostname: config.url,
     root: config.root,
     statics: theme.statics,
+    cdn: theme.cdn,
     favicon: {
       normal: theme.images + "/favicon.ico",
       hidden: theme.images + "/failure.ico"
