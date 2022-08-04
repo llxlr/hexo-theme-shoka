@@ -17,11 +17,19 @@ const domInit = function() {
     });
   }
 
+  if(!angleBtn) {
+    angleBtn = siteHeader.createChild('div', {
+      id: 'angle',
+      innerHTML: '<span><i class="ic i-angle-down" aria-hidden="true"></i></span>'
+    });
+  }
+
   toolPlayer = toolBtn.child('.player');
   backToTop = toolBtn.child('.back-to-top');
   goToComment = toolBtn.child('.chat');
   showContents = toolBtn.child('.contents');
 
+  angleBtn.addEventListener('click',headertopdown);
   backToTop.addEventListener('click', backToTopHandle);
   goToComment.addEventListener('click', goToCommentHandle);
   showContents.addEventListener('click', sideBarToggleHandle);
