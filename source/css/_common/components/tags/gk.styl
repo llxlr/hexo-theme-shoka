@@ -1,0 +1,53 @@
+.md .gk-item {
+  display: flex;
+  border: 1px dashed var(--color-grey);
+  border-radius: 15px;
+  padding: 15px 25px;
+  margin-bottom: 30px;
+
+  +mobile() {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gk-img {
+    width: 50%;
+    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    +mobile() {
+      width: 100%;
+    }
+
+    img {
+      max-height:300px;
+    }
+  }
+
+  .gk-desc {
+    width: 50%;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--text-color);
+    font-size: 13px;
+
+    +mobile() {
+      width: 100%;
+      padding-left: 0;
+      padding-top: 20px;
+    }
+
+    p {
+      margin-bottom: 5px;
+    }
+
+    a {
+      margin-right: 5px;
+    }
+  }
+}
+
