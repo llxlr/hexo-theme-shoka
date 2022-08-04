@@ -136,6 +136,11 @@ sidebar:
   # Replace the default avatar image and set the url here.
   avatar: avatar.jpg
 
+# 检查文章是否失效
+outime:
+  enable: true
+  days: 30
+
 widgets:
   # if true, will show random posts
   random_posts: true

@@ -298,6 +298,32 @@ const autoDarkmode = function(){
   }
 }
 
+const isOutime = function(){
+  if (CONFIG.outime.enable && LOCAL.outime) {
+    var times = document.getElementsByTagName('time');
+    if (times.length === 0) { return; }
+    var posts = document.getElementsByClassName('body md');
+    if (posts.length === 0) { return; }
+
+    var now = Date.now(); //当前时间戳
+    var pubTime = new Date(times[0].dateTime); //文章发布时间戳
+    if (times.length === 1) {
+      var updateTime = pubTime; //文章发布时间亦是最后更新时间
+    } else {
+      var updateTime = new Date(times[1].dateTime); //文章最后更新时间戳
+    }
+    var interval = parseInt(now - updateTime); //时间差
+    var days = parseInt(CONFIG.outime.days) || 30; //设置时效，默认硬编码30天
+    //最后一次更新时间超过days天（毫秒）
+    if (interval > (days * 86400000)) {
+      var publish = parseInt((now - pubTime) / 86400000);
+      var updated = parseInt(interval / 86400000);
+      var template = LOCAL.template.replace('{{publish}}', publish).replace('{{updated}}', updated);
+      posts[0].insertAdjacentHTML('afterbegin', template);
+    }
+  }
+}
+
 const getCDNinfo = function(){
   var cdn = document.getElementById('cdn');
   if(!cdn){return;}
