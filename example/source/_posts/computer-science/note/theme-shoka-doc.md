@@ -1,7 +1,7 @@
 ---
 title: Hexo主题Shoka & multi-markdown-it渲染器使用说明
 date: 2020/08/13 20:45:48
-update: 2020/09/27
+updated: 2020/09/27
 categories:
  - [计算机科学, 二进制杂谈, Theme Shoka Documentation]
 tags:
