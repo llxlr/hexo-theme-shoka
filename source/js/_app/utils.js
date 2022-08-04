@@ -40,7 +40,7 @@ const getScript = function(url, callback, condition) {
 const assetUrl = function(asset, type) {
   var str = CONFIG[asset][type]
   if(str.indexOf('npm')>-1||str.indexOf('gh')>-1||str.indexOf('combine')>-1)
-    return `//${getHostname(CONFIG.cdn)}/${str}`
+    return '//' + getHostname(CONFIG.cdn) + '/' + str
 
   if(str.indexOf('http')>-1)
     return str
