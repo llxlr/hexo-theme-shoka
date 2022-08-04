@@ -28,6 +28,12 @@ theme_color: "#57faff"
 # if `true`, the page will be displayed directly as Dark Mode, unless the user makes another choice
 darkmode: false
 
+# 自动切换夜间模式
+auto_dark:
+  enable: true  #是否开启
+  start: 21     #开始时间
+  end: 6        #结束时间
+
 # By default the page will automatically scroll to the last viewed position
 # if `false`, automatic positioning will be turned off
 auto_scroll: true

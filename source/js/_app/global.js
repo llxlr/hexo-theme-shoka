@@ -288,3 +288,13 @@ const clipBoard = function(str, callback) {
   BODY.removeChild(ta);
 }
 
+const autoDarkmode = function(){
+  if(CONFIG.auto_dark.enable){
+    if (new Date().getHours() >= CONFIG.auto_dark.start || new Date().getHours() <= CONFIG.auto_dark.end) {
+      changeTheme('dark');
+    } else {
+      changeTheme();
+    }
+  }
+}
+

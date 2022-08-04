@@ -129,6 +129,7 @@ const siteInit = function () {
   CONFIG.quicklink.ignores = LOCAL.ignores
   quicklink.listen(CONFIG.quicklink)
 
+  autoDarkmode() //自动切换暗黑模式
   visibilityListener()
   themeColorListener()
 
