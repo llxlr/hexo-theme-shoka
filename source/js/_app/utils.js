@@ -18,6 +18,9 @@ const getScript = function(url, callback, condition) {
         if (!isAbort && callback) setTimeout(callback, 0);
       }
     };
+    if (url.indexOf("busuanzi") !== -1) {
+      script.async = true;
+    }
     script.src = url;
     document.head.appendChild(script);
   }

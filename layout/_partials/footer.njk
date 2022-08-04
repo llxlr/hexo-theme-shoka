@@ -21,6 +21,23 @@
       <i class="ic i-coffee"></i>
     </span>
     <span title="{{ __('symbols_count_time.time_total') }}">{{ symbolsTimeTotal(site, config.symbols_count_time.awl, config.symbols_count_time.wpm, __('symbols_count_time.time_minutes')) }}</span>
+
+    {%- if theme.footer.busuanzi %}
+    <span id="busuanzi_container_site_pv">
+      <span class="post-meta-divider">|</span>
+      <span class="post-meta-item-icon">
+        <i class="ic i-eye"></i>
+      </span>
+      <span id="busuanzi_value_site_pv" title="本站总访问量"></span>次
+    </span>
+    <span id="busuanzi_container_site_uv">
+      <span class="post-meta-divider">|</span>
+      <span class="post-meta-item-icon">
+        <i class="ic i-user"></i>
+      </span>
+      <span id="busuanzi_value_site_uv" title="本站总访客数"></span>人次
+    </span>
+    {%- endif %}
   </div>
   {%- endif %}
 
