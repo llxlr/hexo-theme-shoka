@@ -13,7 +13,7 @@ const domInit = function() {
   if(!toolBtn) {
     toolBtn = siteHeader.createChild('div', {
       id: 'tool',
-      innerHTML: '<div class="item player"></div><div class="item contents"><i class="ic i-list-ol"></i></div><div class="item chat"><i class="ic i-comments"></i></div><div class="item back-to-top"><i class="ic i-arrow-up"></i><span>0%</span></div>'
+      innerHTML: '<div class="item player"></div><div class="item contents"><i class="ic i-list-ol"></i></div><div class="item chat"><i class="ic i-comments"></i></div><div class="item live2d"><i class="ic i-thumbtack"></i></div><div class="item back-to-top"><i class="ic i-arrow-up"></i><span>0%</span></div>'
     });
   }
 
@@ -27,11 +27,13 @@ const domInit = function() {
   toolPlayer = toolBtn.child('.player');
   backToTop = toolBtn.child('.back-to-top');
   goToComment = toolBtn.child('.chat');
+  chooselive2d = toolBtn.child('.live2d');
   showContents = toolBtn.child('.contents');
 
   angleBtn.addEventListener('click',headertopdown);
   backToTop.addEventListener('click', backToTopHandle);
   goToComment.addEventListener('click', goToCommentHandle);
+  chooselive2d.addEventListener('click', chooseLive2dHandle);
   showContents.addEventListener('click', sideBarToggleHandle);
 
   mediaPlayer(toolPlayer)
