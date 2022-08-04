@@ -130,6 +130,8 @@ const siteInit = function () {
   quicklink.listen(CONFIG.quicklink)
 
   autoDarkmode() //自动切换暗黑模式
+  getCDNinfo() //获取CDN信息
+
   visibilityListener()
   themeColorListener()
 
