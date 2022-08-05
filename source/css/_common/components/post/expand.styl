@@ -164,6 +164,45 @@
     white-space: nowrap;
   }
 
+  .mouse, mouse {
+    background-color: var(--grey-1);
+    background-image: linear-gradient(var(--grey-2), var(--grey-0), var(--grey-2));
+    border: .0625rem solid var(--grey-4);
+    border-radius: .2rem;
+    box-shadow: .1rem .1rem .2rem var(--grey-9-a1);
+    cursor: default;
+    color: var(--text-color);
+    font-family: inherit;
+    padding: .1rem;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--color-red);
+    }
+
+    &:active {
+      color: var(--text-color);
+    }
+
+    &::before {
+      display: inline-block;
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url('../images/mouse.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      vertical-align: sub;
+    }
+
+    list = click double-click middle-click right-click wheel drag middle-button-drag right-button-drag;
+    for i in list {
+      &.{i}::before {
+        background-position: 0 -20px * (index(list, i) + 1);
+      }
+    }
+  }
+
   mark {
     background-color: #dbfdad;
   }
