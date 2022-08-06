@@ -1,0 +1,103 @@
+.md .pan {
+  display: block;
+  position: relative;
+  min-width: 200px;
+  max-width: 400px;
+  margin-bottom: 5px;
+  border-radius: 15px;
+  text-decoration: none;
+  border: 1px solid var(--color-grey);
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .pan-content-info {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 12px 14px 56px;
+  }
+
+  .pan-content-info {
+    .pan-logo {
+      display: inline-block;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 36px;
+      height: 36px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .pan-title {
+      display: flex;
+      line-height: 1.2;
+      font-size: 14px;
+      font-family: PingFangSC-Regular;
+      color: var(--text-color);
+      text-align: left;
+      margin: 0;
+
+      .title {
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .pan-desc {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1;
+      color: var(--text-color);
+      text-align: left;
+
+      .pan-size {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .pan-content-code {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border-top: 1px solid #eee;
+
+    .pan-code {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 1;
+
+      .code-info {
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: var(--text-color);
+      }
+
+      .code-btn {
+        display: block;
+        height: 24px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: var(--color-green);
+        line-height: 24px;
+        padding: 0 9px;
+        border: 1px solid var(--color-green);
+        border-radius: 14px;
+      }
+    }
+
+    .pan-no-code {
+      flex-direction: row-reverse;
+    }
+  }
+}
