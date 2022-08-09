@@ -85,18 +85,29 @@ $times {
   blockquote {
     display: none;
 
-    .mistake {
-      display: block;
-      border: .1875rem dashed var(--grey-4);
-      padding: .625rem 1.25rem;
-      background: var(--grey-3);
-      margin: .3125rem;
-
+    >p {
       &::before {
+        content: attr(data-type);
+        margin-right: .5rem;
+      }
+
+      .mistake {
         display: block;
-        content: "[" attr(data-type) "]";
-        font-size: $font-size-smaller;
-        color: var(--grey-4);
+        border: .1875rem dashed var(--grey-4);
+        padding: .625rem 1.25rem;
+        background: var(--grey-3);
+        margin: .3125rem;
+
+        &::before {
+          display: block;
+          content: "[" attr(data-type) "]";
+          font-size: $font-size-smaller;
+          color: var(--grey-4);
+        }
+      }
+
+      .qed::before {
+        float: right;
       }
     }
   }
@@ -130,24 +141,11 @@ $times {
         li-nodot();
       }
 
-      &:nth-child(1)::before {
-        content: "A."
-      }
-
-      &:nth-child(2)::before {
-        content: "B."
-      }
-
-      &:nth-child(3)::before {
-        content: "C."
-      }
-
-      &:nth-child(4)::before {
-        content: "D."
-      }
-
-      &:nth-child(5)::before {
-        content: "E."
+      alphabet = split('', 'ABCDEFGHIJKLMNO')
+      for i in alphabet {
+        &:nth-child({index(alphabet, i) + 1})::before {
+          content: i + ".";
+        }
       }
 
     }
