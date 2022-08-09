@@ -327,12 +327,28 @@ const postBeauty = function () {
       type = 'gap_fill'
     if(quiz.hasClass('essay'))
       type = 'essay'
+    if(quiz.hasClass('explan'))
+      type = 'explan'
+    if(quiz.hasClass('brief'))
+      type = 'brief'
+    if(quiz.hasClass('proof'))
+      type = 'proof'
     element.attr('data-type', LOCAL.quiz[type])
   });
 
   $.each('.quiz .mistake', function (element) {
     element.attr('data-type', LOCAL.quiz.mistake)
   });
+
+  $.each('.quiz.brief > blockquote > p:first-child', function (element) {
+    element.attr('data-type', LOCAL.quiz.soln)
+  });
+
+  $.each('.quiz.proof > blockquote > p:first-child', function (element) {
+    element.attr('data-type', LOCAL.quiz.prove)
+  });
+
+
 
   $.each('div.tags a', function(element) {
     element.className = ['primary', 'success', 'info', 'warning', 'danger'][Math.floor(Math.random() * 5)]
