@@ -146,6 +146,7 @@ quiz:
   soln: "解:"
   proof: 证明题
   prove: "证明:"
+  algorithm: 算法题
 
 outime:
   template: "<div class=\"note warning\"><p><span class=\"label warning\">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>"

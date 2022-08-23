@@ -333,6 +333,8 @@ const postBeauty = function () {
       type = 'brief'
     if(quiz.hasClass('proof'))
       type = 'proof'
+    if(quiz.hasClass('algorithm'))
+      type = 'algorithm'
     element.attr('data-type', LOCAL.quiz[type])
   });
 
