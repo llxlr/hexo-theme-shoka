@@ -65,7 +65,6 @@ const siteRefresh = function (reload) {
   vendorJs('copy_tex');
   vendorCss('mermaid');
   vendorJs('chart');
-  vendorJs('busuanzi');
   vendorCss('heti');
   vendorJs('heti');
   vendorJs('valine', function() {
