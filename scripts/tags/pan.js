@@ -25,7 +25,8 @@ const panList = {
   qiniu: { name: '七牛云', image: 'qiniu.png' },
   github: { name: 'GitHub', image: 'github.png' },
   lanzou: { name: '蓝奏云', image: 'lanzou.png' },
-  doge: { name: '多吉云', images: 'dogecloud.png' },
+  doge: { name: '多吉云', image: 'dogecloud.png' },
+  custom: { name: '自定义', image: 'download.png' },
 };
 
 hexo.extend.injector.register('body_end', `<script data-pjax>
