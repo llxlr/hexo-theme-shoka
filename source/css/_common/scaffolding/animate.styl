@@ -64,6 +64,10 @@
   animation: elastic 1s;
 }
 
+.flip {
+  animation: flip 6s linear infinite;
+}
+
 @keyframes rotate {
   from {
     transform: rotate(0)
@@ -314,5 +318,14 @@
     100% {
         transform: scale(1)
     }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
 }
 
