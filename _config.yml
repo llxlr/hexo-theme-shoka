@@ -59,8 +59,7 @@ font:
   # host: fonts.googleapis.com
   # host: fonts.googleapis.cn
   # host: fonts.loli.net
-  # host: fonts.geekzu.org
-  host: fonts.sourcegcdn.com
+  host: fonts.geekzu.org
 
   # Font options:
   # `external: true` will load this font family from `host` above.
