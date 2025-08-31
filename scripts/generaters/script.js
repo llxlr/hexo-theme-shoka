@@ -39,11 +39,18 @@ hexo.extend.generator.register('script', function(locals){
     loader: theme.loader,
     search : null,
     outime: theme.outime,
-    valine: theme.valine,
     quicklink: {
       timeout : theme.quicklink.timeout,
       priority: theme.quicklink.priority
     }
+  };
+
+  if(theme.valine.enable) {
+    siteConfig.valine = theme.valine
+  };
+
+  if(theme.twikoo.enable) {
+    siteConfig.twikoo = theme.twikoo
   };
 
   if(config.algolia) {

@@ -236,6 +236,14 @@ valine:
     investor:
       # - hash of investor1@email.com
 
+# Twikoo
+# For more information: https://twikoo.js.org/
+twikoo:
+  enable: false
+  mode: vercel # vercel或tencent
+  envId: "" # twikoo环境ID,vercel填地址
+  region: "none" #tencent填对应ap地域,vercel随便填
+
 # bgm
 audio:
   # - title: 列表1
@@ -325,6 +333,7 @@ vendors:
     quicklink: npm/quicklink@2/dist/quicklink.umd.js
     fancybox: combine/npm/jquery@3.5.1/dist/jquery.min.js,npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js,npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js
     valine: gh/amehime/MiniValine@4.2.2-beta10/dist/MiniValine.min.js
+    twikoo: npm/twikoo@1.6.44/dist/twikoo.min.js
     copy_tex: npm/katex@0.12.0/dist/contrib/copy-tex.min.js
     chart: npm/frappe-charts@1.5.0/dist/frappe-charts.min.iife.min.js
     busuanzi: https://busuanzi.icodeq.com/busuanzi.pure.mini.js

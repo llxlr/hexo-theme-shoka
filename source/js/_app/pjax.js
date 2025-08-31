@@ -67,21 +67,44 @@ const siteRefresh = function (reload) {
   vendorJs('chart');
   vendorCss('heti');
   vendorJs('heti');
-  vendorJs('valine', function() {
-    var options = Object.assign({}, CONFIG.valine);
-    options = Object.assign(options, LOCAL.valine||{});
-    options.el = '#comments';
-    options.pathname = LOCAL.path;
-    options.pjax = pjax;
-    options.lazyload = lazyload;
+  if(CONFIG.valine.enable) {
+    vendorJs('valine', function() {
+      var options = Object.assign({}, CONFIG.valine);
+      options = Object.assign(options, LOCAL.valine||{});
+      options.el = '#comments';
+      options.pathname = LOCAL.path;
+      options.pjax = pjax;
+      options.lazyload = lazyload;
 
-    new MiniValine(options);
+      new MiniValine(options);
 
-    setTimeout(function(){
-      positionInit(1);
-      postFancybox('.v');
-    }, 1000);
-  }, window.MiniValine);
+      setTimeout(function(){
+        positionInit(1);
+        postFancybox('.v');
+      }, 1000);
+    }, window.MiniValine);
+  }
+  if(CONFIG.twikoo.enable) {
+    vendorJs('twikoo', function() {
+      if(window.initTwikoo) {
+        var options = Object.assign({}, CONFIG.twikoo);
+        options = Object.assign(options, LOCAL.twikoo||{});
+        options.envId = options.envId;
+        options.region = options.region || 'none';
+        options.el = '#tcomments';
+        options.path = LOCAL.path;
+        options.pjax = pjax;
+        options.lazyload = lazyload;
+
+        window.initTwikoo(options);
+
+        setTimeout(function(){
+          positionInit(1);
+          postFancybox('.v');
+        }, 1000);
+      }
+    }, window.initTwikoo);
+  }
 
   if(!reload) {
     $.each('script[data-pjax]', pjaxScript);
@@ -128,6 +151,7 @@ const siteInit = function () {
             selectors: [
               'head title',
               '.languages',
+              '.twikoo',
               '.pjax',
               'script[data-config]'
             ],

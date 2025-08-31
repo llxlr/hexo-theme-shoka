@@ -19,4 +19,15 @@
       <span class="text">{{ __('symbols_count_time.view') }}</span>
   </span>
   {%- endif %}
+
+  {%- if theme.twikoo.enable %}
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-eye"></i>
+    </span>
+    <span class="text">{{ __('post.views') }}</span>
+    <span id="twikoo_visitors"></span>
+    <span class="text">{{ __('symbols_count_time.view') }}</span>
+  </span>
+  {%- endif %}
 </div>

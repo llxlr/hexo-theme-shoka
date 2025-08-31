@@ -1,5 +1,21 @@
 {% macro render() %}
 {%- if page.comment !== false %}
-  <div class="wrap" id="comments"></div>
+<hr>
+<span style="margin-left: 1rem;"><i class="ic i-info-circle"></i>在提问之前，你应该学会<a style="color: var(--primary-color);" href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md">如何提问</a></span>
+<hr>
+  {%- if theme.twikoo.enable %}
+    <div class="wrap" id="tcomments"></div>
+    <script data-pjax>
+      twikoo.init({
+        envId: "{{ theme.twikoo.envId }}", // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
+        el: '#tcomments', // 容器元素
+        {%- if theme.twikoo.mode === "vercel" %}region: '{{ theme.twikoo.region }}',{%- else %}{%- endif %} // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
+        // path: location.pathname, // 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
+        // lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/imaegoo/twikoo/blob/main/src/js/utils/i18n/index.js
+      })
+    </script>
+  {%- else %}
+    <div class="wrap" id="comments"></div>
+  {%- endif %}
 {%- endif %}
 {% endmacro %}

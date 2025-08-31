@@ -23,9 +23,9 @@
 {%- endif %}
 
 {%- if theme.widgets.recent_comments %}
-<div>
+<div class="pjax">
   <h2>{{__('index.recent_comments')}}</h2>
-  <ul class="leancloud-recent-comment"></ul>
+  {%- if theme.twikoo.enable %}<ul class="leancloud-recent-comment" id="twikoo_comment"></ul>{%- else %}<ul class="leancloud-recent-comment"></ul>{%- endif %}
 </div>
 {%- endif %}
 {% endmacro %}

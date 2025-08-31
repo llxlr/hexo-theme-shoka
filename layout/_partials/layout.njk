@@ -109,7 +109,8 @@
       stats: "{{ __('search.stats') }}"
     },
     {%- if theme.widgets.recent_comments or page.comment !== false  %}
-    valine: {{ page.valine|safedump if page.valine else "true"  }},{%- endif %}
+    {%- if theme.valine.enable %}valine: {{ page.valine|safedump if page.valine else "true"  }},{%- endif %}{%- endif %}
+    {%- if theme.twikoo.enable %}twikoo: {{ page.twikoo|safedump if page.twikoo else "true"  }},{%- endif %}{%- endif %}
     {%- if page.chart %}chart: true,{%- endif %}
     {%- if page.math %}copy_tex: true,
     katex: true,{%- endif %}
@@ -160,6 +161,7 @@
 
 {{ _js('app.js')}}
 
+{{ partial('_partials/third-party/twikoo.njk', {}, {cache: true}) }}
 {{ partial('_partials/third-party/baidu-analytics.njk', {}, {cache: true}) }}
 
 </body>
