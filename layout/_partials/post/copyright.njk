@@ -6,15 +6,15 @@
 <ul>
   <li class="author">
     <strong>{{ __('post.copyright.author') + __('symbol.colon') }} </strong>
-    {{- page.author or author }} <i class="ic i-at"><em>@</em></i> {{- title}}
+    {{- page.author or author }} <i class="ic i-at"><em>@</em></i> {{- page.ref_source or title }}
   </li>
   <li class="link">
     <strong>{{ __('post.copyright.link') + __('symbol.colon') }}</strong>
-    {{ _url(page.permalink, page.permalink, {title: page.title}) }}
+    {{ _url(page.ref_link or page.permalink, page.ref_link or page.permalink, {title: page.title}) }}
   </li>
   <li class="license">
     <strong>{{ __('post.copyright.license_title') + __('symbol.colon') }} </strong>
-    {{- __('post.copyright.license_content', _url(ccURL, ccIcon + ccText)) if page.copyright !== true else __("post.copyright.nocopy")}}
+    {{- page.license or __('post.copyright.license_content', _url(ccURL, ccIcon + ccText)) if page.copyright !== true else __("post.copyright.nocopy")}}
   </li>
 </ul>
 </div>
