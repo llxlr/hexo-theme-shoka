@@ -67,7 +67,7 @@ const siteRefresh = function (reload) {
   vendorJs('chart');
   vendorCss('heti');
   vendorJs('heti');
-  if(CONFIG.valine.enable) {
+  if(CONFIG.valine) {
     vendorJs('valine', function() {
       var options = Object.assign({}, CONFIG.valine);
       options = Object.assign(options, LOCAL.valine||{});
@@ -84,7 +84,7 @@ const siteRefresh = function (reload) {
       }, 1000);
     }, window.MiniValine);
   }
-  if(CONFIG.twikoo.enable) {
+  if(CONFIG.twikoo) {
     vendorJs('twikoo', function() {
       if(window.initTwikoo) {
         var options = Object.assign({}, CONFIG.twikoo);

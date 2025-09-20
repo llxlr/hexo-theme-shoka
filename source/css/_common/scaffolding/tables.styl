@@ -19,14 +19,31 @@
       }
     }
 
-    caption, th, td {
+    caption {
+      &::before {
+        counter-increment: counter;
+        content: attr(data-type) " " counter(counter);
+        position: inherit;
+        color: var(--primary-color);
+        width: 2rem;
+        left: -2.2rem;
+        height: auto;
+        background: none !important;
+        border: none !important;
+        font-size: 1em;
+        margin: auto .3125rem
+      }
       font-weight: normal;
       padding: .5rem;
-      text-align: left;
+      text-align: center;
       vertical-align: middle;
     }
 
     th, td {
+      font-weight: normal;
+      padding: .5rem;
+      text-align: left;
+      vertical-align: middle;
       border: .0625rem solid var(--grey-3);
       border-bottom: .1875rem solid var(--grey-3);
     }
