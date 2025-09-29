@@ -9,6 +9,8 @@ const pangu = require('pangu') || {
     }
   };
 
+const { replaceQuotes } = require('./custom.js');
+
 function njkCompile(data) {
   const templateDir = path.dirname(data.path);
   const env = nunjucks.configure(templateDir, {
@@ -26,6 +28,12 @@ function njkCompile(data) {
   env.addFilter('pangu', dictionary => {
     if (typeof dictionary !== 'undefined' && dictionary !== null) {
       return pangu.spacing(dictionary);
+    }
+    return '""';
+  });
+  env.addFilter('replaceQuotes', (text, options) => {
+    if (typeof text !== 'undefined' && text !== null) {
+      return replaceQuotes(text, options);
     }
     return '""';
   });

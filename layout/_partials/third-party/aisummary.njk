@@ -1,0 +1,20 @@
+<div class="ai-summary">
+  <div class="ai-head">
+    <div class="ai-head-left">
+      <div class="ai-circle ai-circle-1"></div>
+      <div class="ai-circle ai-circle-2"></div>
+      <div class="ai-circle ai-circle-3"></div>
+    </div>
+    <div class="ai-head-right">
+      <a class="ai-about-ai" href="https://blog.liushen.fun/posts/40702a0d/" data-pjax-state="">关于 AI</a>
+    </div>
+  </div>
+  <div class="ai-explanation" style="display:block" data-summary="{{ page.summary | replaceQuotes | pangu }}">{{ theme.ai_summary.loadingText }}</div>
+  <div class="ai-title">
+    <div class="ai-title-left">
+      <i class="ic i-snowflake"></i>
+      <div class="ai-title-text">{{ theme.ai_summary.title }}</div>
+    </div>
+    <div class="ai-tag" id="ai-tag">{{ theme.ai_summary.modelName }}</div>
+  </div>
+</div>

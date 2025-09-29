@@ -244,6 +244,13 @@ twikoo:
   envId: "" # twikoo环境ID,vercel填地址
   region: "none" #tencent填对应ap地域,vercel随便填
 
+# 文章AI摘要是否开启，会自动检索文章色summary字段，若没有则不显示
+ai_summary:
+  enable: true
+  title: AI 摘要
+  loadingText: AI 正在绞尽脑汁想思路 ING···
+  modelName: DeepSeek R1
+
 # bgm
 audio:
   # - title: 列表1
