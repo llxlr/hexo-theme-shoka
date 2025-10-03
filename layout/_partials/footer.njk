@@ -44,7 +44,21 @@
   {%- if theme.footer.powered %}
   <div class="powered-by">
     {{ __('footer.powered', _url('https://hexo.io', 'Hexo') + ' & Theme.' + _url('https://github.com/amehime/hexo-theme-shoka', 'Shoka')) }}
-    {% if theme.footer.beian %}&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank">{{ theme.footer.beian }}</a>{% endif %}
+  </div>
+  {%- endif %}
+
+  {%- if theme.footer.beian %}
+  <div class="beian">
+    {%- if theme.footer.beian.gongan %}
+    {% set gongan_url = "http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=" %}
+    <span title="公安备案">{{ _url(gongan_url + theme.footer.beian.gongan.code, theme.footer.beian.gongan.name) }}</span>
+    {%- endif %}
+    {%- if theme.footer.beian.icp %}
+    <span title="ICP备案">{{ _url('https://beian.miit.gov.cn', theme.footer.beian.icp) }}</span>
+    {%- endif %}
+    {%- if theme.footer.beian.moe %}
+    <span title="萌备案">{{ _url('https://icp.gov.moe/?keyword='+theme.footer.beian.moe, '萌ICP备'+theme.footer.beian.moe+'号') }}</span>
+    {%- endif %}
   </div>
   {%- endif %}
 </div>

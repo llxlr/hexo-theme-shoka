@@ -165,7 +165,12 @@ footer:
   count: false
   powered: true
   busuanzi: true # 不蒜子计数
-  beian: # ICP
+  beian: # 备案号
+    icp: # ICP
+    moe: # 萌备案
+    gongan: # 公安
+      name: # 备案名称
+      code: # 备案号
 
 post:
   # Dependencies: https://github.com/theme-next/hexo-symbols-count-time
