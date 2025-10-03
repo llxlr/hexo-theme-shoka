@@ -52,7 +52,7 @@ function copyCode(code) {
   input.className = 'input';
   input.style.display = 'none';
 };
-</script>`);
+</script>`.replace(/  |\r|\n/g, ''));
 
 hexo.extend.tag.register('pan', (args) => {
   if (!args[0]) return;
