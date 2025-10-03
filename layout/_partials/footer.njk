@@ -49,7 +49,7 @@
 
   {%- if theme.footer.beian %}
   <div class="beian">
-    {%- if theme.footer.beian.gongan %}
+    {%- if theme.footer.beian.gongan and theme.footer.beian.gongan.name and theme.footer.beian.gongan.code %}
     {% set gongan_url = "http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=" %}
     <span title="公安备案">{{ _url(gongan_url + theme.footer.beian.gongan.code, theme.footer.beian.gongan.name) }}</span>
     {%- endif %}
