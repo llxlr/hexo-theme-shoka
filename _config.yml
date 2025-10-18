@@ -168,7 +168,7 @@ footer:
   beian: # 备案号
     icp: # ICP
     moe: # 萌备案
-    gongan: # 公安
+    police: # 公安
       name: # 备案名称
       code: # 备案号
 
