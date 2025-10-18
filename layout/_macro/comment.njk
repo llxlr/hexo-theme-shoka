@@ -1,9 +1,14 @@
 {% macro render() %}
+{# 定义宏 #}
+{% macro commentHead(left="在提问之前，你应该学会", middle="如何提问", link="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md", right="") %}
+  <hr style="margin:.5rem">
+  <span style="margin-left: 1rem;"><i class="ic i-info-circle"></i>{{ left }}<a style="color: var(--primary-color);" href="{{ link }}">{{ middle }}</a>{{ right }}</span>
+  <hr style="margin:.5rem">
+{% endmacro %}
+
 {%- if page.comment !== false %}
-<hr>
-<span style="margin-left: 1rem;"><i class="ic i-info-circle"></i>在提问之前，你应该学会<a style="color: var(--primary-color);" href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md">如何提问</a></span>
-<hr>
   {%- if theme.twikoo.enable %}
+    {{ commentHead() }}
     <div class="wrap" id="tcomments"></div>
     <script data-pjax>
       twikoo.init({
@@ -14,7 +19,8 @@
         // lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/imaegoo/twikoo/blob/main/src/js/utils/i18n/index.js
       })
     </script>
-  {%- else %}
+  {%- elif theme.valine.enable %}
+    {{ commentHead() }}
     <div class="wrap" id="comments"></div>
   {%- endif %}
 {%- endif %}
