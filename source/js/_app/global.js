@@ -325,26 +325,27 @@ const isOutime = function(){
 }
 
 const getCDNinfo = function(){
+  if(!CONFIG.services.cloudflare.enable){return;}
   var cdn = document.getElementById('cdn');
   if(!cdn){return;}
-  try {
-    fetch('/cdn-cgi/trace').then(function(resp){
-      resp.text().then(function(res){
-        var area = res.match(/colo=(.*?)\n/)[1];
-        fetch('https://cdn.jsdelivr.net/gh/llxlr/cdn/static/areas.json').then(function(resp){
-          resp.json().then(function(data){
-            for(var i in data){
-              if (data[i].colo == area) {
-                var info = data[i].city+', '+data[i].region;
-                console.log(info);
-                cdn.innerHTML = info;
-              }
+  fetch('/cdn-cgi/trace')
+    .then(function(resp) { return resp.text(); })
+    .then(function(res){
+      var area = res.match(/colo=(.*?)\n/)[1];
+      fetch('https://cdn.jsdelivr.net/gh/llxlr/cdn/static/areas.json')
+        .then(function(resp){ return resp.json(); })
+        .then(function(data){
+          for(var i in data){
+            if (data[i].colo == area) {
+              var info = data[i].city+', '+data[i].region;
+              console.log(info);
+              cdn.innerHTML = info;
             }
-          })
+          }
         })
-      })
     })
-  } catch(e) {
-    return;
-  }
+    .catch(function(error){
+      console.error("Error:", error);
+      return;
+    });
 }
