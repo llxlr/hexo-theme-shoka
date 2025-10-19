@@ -50,7 +50,7 @@
   {%- if theme.footer.beian %}
   <div class="beian">
     {%- if theme.footer.beian.police and theme.footer.beian.police.name and theme.footer.beian.police.code %}
-    {% set police_url = "http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=" %}
+    {% set police_url = "https://beian.mps.gov.cn/#/query/webSearch?code=" %}
     <span title="公安备案">{{ _url(police_url + theme.footer.beian.police.code, theme.footer.beian.police.name) }}</span>
     {%- endif %}
     {%- if theme.footer.beian.icp %}
