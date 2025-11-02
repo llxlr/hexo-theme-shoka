@@ -86,7 +86,7 @@ const siteRefresh = function (reload) {
   }
   if(CONFIG.twikoo) {
     vendorJs('twikoo', function() {
-      if(window.initTwikoo) {
+      if(window.twikoo.init) {
         var options = Object.assign({}, CONFIG.twikoo);
         options = Object.assign(options, LOCAL.twikoo||{});
         options.envId = options.envId;
@@ -96,14 +96,14 @@ const siteRefresh = function (reload) {
         options.pjax = pjax;
         options.lazyload = lazyload;
 
-        window.initTwikoo(options);
+        window.twikoo.init(options);
 
         setTimeout(function(){
           positionInit(1);
           postFancybox('.v');
         }, 1000);
       }
-    }, window.initTwikoo);
+    }, window.twikoo.init);
   }
 
   if(!reload) {

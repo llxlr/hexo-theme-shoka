@@ -24,6 +24,7 @@ hexo.extend.generator.register('script', function(locals){
     auto_scroll: theme.auto_scroll,
     js: {
       valine: theme.vendors.js.valine,
+      twikoo: theme.vendors.js.twikoo,
       chart: theme.vendors.js.chart,
       copy_tex: theme.vendors.js.copy_tex,
       fancybox: theme.vendors.js.fancybox,
