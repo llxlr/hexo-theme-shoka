@@ -51,12 +51,26 @@
   <div class="beian">
     {%- if theme.footer.beian.police and theme.footer.beian.police.name and theme.footer.beian.police.code %}
     {% set police_url = "https://beian.mps.gov.cn/#/query/webSearch?code=" %}
+    <span>
+      <i class="ic i-police1 police"></i>
+    </span>
     <span title="公安备案">{{ _url(police_url + theme.footer.beian.police.code, theme.footer.beian.police.name) }}</span>
     {%- endif %}
     {%- if theme.footer.beian.icp %}
+    <span>
+      {# <i class="ic i-icp"></i> #}
+      <i>
+        <svg class="icp" aria-hidden="true">
+          <use xlink:href="#i-icp"></use>
+        </svg>
+      </i>
+    </span>
     <span title="ICP备案">{{ _url('https://beian.miit.gov.cn', theme.footer.beian.icp) }}</span>
     {%- endif %}
     {%- if theme.footer.beian.moe %}
+    <span>
+      <i class="ic i-moe moe"></i>
+    </span>
     <span title="萌备案">{{ _url('https://icp.gov.moe/?keyword='+theme.footer.beian.moe, '萌ICP备'+theme.footer.beian.moe+'号') }}</span>
     {%- endif %}
   </div>

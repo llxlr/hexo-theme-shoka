@@ -12,8 +12,31 @@
       border-bottom-color var(--color-blue)
       color var(--color-blue)
 
-  .police
+  .icp
+    width 14px
     height 14px
-    margin-right 6px
-    vertical-align middle
+    vertical-align -0.15em
+    fill currentColor
+    overflow hidden
     transition transform 0.3s ease
+
+    &:hover
+      transform rotate(20deg)
+
+  .moe
+    color #ff1485
+    transition transform 0.3s ease
+
+    &:hover
+      transform scale3d(1.2, 1.2, 1.2)
+
+  .police
+    width 14px
+    height 14px
+    vertical-align -0.15em
+    fill currentColor
+    overflow hidden
+    transition transform 0.3s ease
+
+    &:hover
+      transform rotateY(180deg)
