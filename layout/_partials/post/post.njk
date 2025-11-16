@@ -41,7 +41,7 @@
     {{ partial('_partials/post/footer.njk') }}
 
     {%- if theme.reward.enable %}
-      {{ partial('_partials/post/reward.njk', {}, {cache: true}) }}
+      {{ partial('_partials/post/reward.njk') }}
     {%- endif %}
 
     {%- if theme.creative_commons.license %}
