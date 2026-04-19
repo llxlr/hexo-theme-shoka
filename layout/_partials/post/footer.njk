@@ -9,7 +9,7 @@
   </span>
   {%- endif %}
 
-  {%- if theme.valine.appId and theme.valine.appKey and theme.valine.visitor %}
+  {%- if theme.valine.enable and theme.valine.appId and theme.valine.appKey and theme.valine.visitor %}
   <span id="{{ page.path | replace('index.html', '') }}" class="item leancloud_visitors" data-flag-title="{{ post.title }}" title="{{ __('post.views') }}">
       <span class="icon">
         <i class="ic i-eye"></i>

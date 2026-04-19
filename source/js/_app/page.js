@@ -253,7 +253,7 @@ const postBeauty = function () {
     caption && caption.addEventListener('click', fullscreenHandle);
 
     if(code_container && code_container.find("tr").length > 15) {
-      
+
       code_container.style.maxHeight = "300px";
       code_container.insertAdjacentHTML('beforeend', '<div class="show-btn"><i class="ic i-angle-down"></i></div>');
       var showBtn = code_container.child('.show-btn');
@@ -424,7 +424,7 @@ const tabFormat = function() {
 }
 
 const loadComments = function () {
-  var element = $('#comments');
+  var element = $('#comments') || $('#tcomments');
   if (!element) {
     goToComment.display("none")
     return;
@@ -433,13 +433,13 @@ const loadComments = function () {
   }
 
   if (!window.IntersectionObserver) {
-    vendorCss('valine');
+    vendorCss('valine') || vendorCss('twikoo');
   } else {
     var io = new IntersectionObserver(function(entries, observer) {
       var entry = entries[0];
-      vendorCss('valine');
+      vendorCss('valine') || vendorCss('twikoo');
       if (entry.isIntersecting || entry.intersectionRatio > 0) {
-        transition($('#comments'), 'bounceUpIn');
+        transition($('#comments'), 'bounceUpIn') || transition($('#tcomments'), 'bounceUpIn');
         observer.disconnect();
       }
     });

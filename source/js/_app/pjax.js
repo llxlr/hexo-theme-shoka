@@ -86,24 +86,44 @@ const siteRefresh = function (reload) {
   }
   if(CONFIG.twikoo) {
     vendorJs('twikoo', function() {
-      if(window.twikoo.init) {
-        var options = Object.assign({}, CONFIG.twikoo);
-        options = Object.assign(options, LOCAL.twikoo||{});
-        options.envId = options.envId;
-        options.region = options.region || 'none';
-        options.el = '#tcomments';
-        options.path = LOCAL.path;
-        options.pjax = pjax;
-        options.lazyload = lazyload;
+      var options = Object.assign({}, CONFIG.twikoo);
+      options = Object.assign(options, LOCAL.twikoo||{});
+      options.envId = options.envId;
+      options.region = options.region || 'none';
+      options.el = '#tcomments';
+      options.path = LOCAL.path;
+      options.pjax = pjax;
+      options.lazyload = lazyload;
+      options.includeReply = options.includeReply || false;
+      options.pageSize = options.pageSize || 10;
 
-        window.twikoo.init(options);
+      window.twikoo.getRecentComments({
+        envId: options.envId,
+        includeReply: options.includeReply,
+        pageSize: options.pageSize
+      }).then(function(res) {
+        const commentList = document.getElementById('twikoo_comment');
+        if (!commentList) return;
+        const html = res.sort((a, b) => b.created - a.created).map(item => `
+          <li class="item">
+            <a href="${item.url}#${item.id}" data-pjax-state="data-pjax-state">
+              <span class="breadcrumb">${item.nick} @ ${item.relativeTime}</span>
+              <span>${item.commentText}</span>
+            </a>
+          </li>
+        `).join('');
+        commentList.insertAdjacentHTML('beforeend', html);
+      }).catch(function (err) {
+        console.log(err)
+      });
 
-        setTimeout(function(){
-          positionInit(1);
-          postFancybox('.v');
-        }, 1000);
-      }
-    }, window.twikoo.init);
+      window.twikoo.init(options);
+
+      setTimeout(function(){
+        positionInit(1);
+        postFancybox('.v');
+      }, 1000);
+    }, window.twikoo);
   }
 
   if(!reload) {

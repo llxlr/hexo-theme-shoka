@@ -32,6 +32,7 @@ hexo.extend.generator.register('script', function(locals){
     },
     css: {
       valine: theme.css + "/comment.css",
+      twikoo: theme.css + "/comment.css",
       katex: theme.vendors.css.katex,
       mermaid: theme.css + "/mermaid.css",
       fancybox: theme.vendors.css.fancybox,
