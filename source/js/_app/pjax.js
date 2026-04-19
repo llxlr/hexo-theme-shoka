@@ -158,11 +158,6 @@ const siteRefresh = function (reload) {
   isOutime() //判断文章时效性
 
   renderAISummary() //AI文章总结
-
-  if(LOCAL.heti){
-    const heti = new Heti('.heti');
-    heti.autoSpacing();
-  }
 }
 
 const siteInit = function () {

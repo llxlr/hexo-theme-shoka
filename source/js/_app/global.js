@@ -315,9 +315,9 @@ const isOutime = function(){
     var interval = parseInt(now - updateTime); //时间差
     var days = parseInt(CONFIG.outime.days) || 30; //设置时效，默认硬编码30天
     //最后一次更新时间超过days天（毫秒）
-    if (interval > (days * 86400000)) {
-      var publish = parseInt((now - pubTime) / 86400000);
-      var updated = parseInt(interval / 86400000);
+    if (interval > (days * 864e5)) {
+      var publish = parseInt((now - pubTime) / 864e5);
+      var updated = parseInt(interval / 864e5);
       var template = LOCAL.template.replace('{{publish}}', publish).replace('{{updated}}', updated);
       posts[0].insertAdjacentHTML('afterbegin', template);
     }
