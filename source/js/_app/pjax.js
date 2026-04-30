@@ -104,14 +104,9 @@ const siteRefresh = function (reload) {
       }).then(function(res) {
         const commentList = document.getElementById('twikoo_comment');
         if (!commentList) return;
-        const html = res.sort((a, b) => b.created - a.created).map(item => `
-          <li class="item">
-            <a href="${item.url}#${item.id}" data-pjax-state="data-pjax-state">
-              <span class="breadcrumb">${item.nick} @ ${item.relativeTime}</span>
-              <span>${item.commentText}</span>
-            </a>
-          </li>
-        `).join('');
+        const html = res.sort(function (a, b) { return b.created - a.created }).map(function (item) {
+          return '<li class="item"><a href="'+item.url+'#'+item.id+'" data-pjax-state="data-pjax-state"><span class="breadcrumb">'+item.nick+' @ '+item.relativeTime+'</span><span>'+item.commentText+'</span></a></li>'
+        }).join('');
         commentList.insertAdjacentHTML('beforeend', html);
       }).catch(function (err) {
         console.log(err)
@@ -121,7 +116,7 @@ const siteRefresh = function (reload) {
 
       setTimeout(function(){
         positionInit(1);
-        postFancybox('.v');
+        postFancybox('.twikoo');
       }, 1000);
     }, window.twikoo);
   }
