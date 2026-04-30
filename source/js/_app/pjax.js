@@ -153,6 +153,9 @@ const siteRefresh = function (reload) {
   isOutime() //判断文章时效性
 
   renderAISummary() //AI文章总结
+
+  TablePaginationManager.initAllTables() // 初始化所有表格的分页
+
 }
 
 const siteInit = function () {

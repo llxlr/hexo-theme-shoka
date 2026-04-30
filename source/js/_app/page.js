@@ -86,8 +86,9 @@ const postFancybox = function(p) {
         element.remove();
       });
 
-      $.each(p + ' .md img:not(.emoji):not(.vemoji)', function(element) {
+      $.each(p + ' .md img:not(.emoji):not(.vemoji)', function(element, index) {
         var $image = q(element);
+        $image.attr('id', 'fig' + (index + 1));
         var info, captionClass = 'image-info';
         if(!$image.is('a img')) {
           var imageLink = $image.attr('data-src') || $image.attr('src');
