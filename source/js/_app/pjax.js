@@ -97,6 +97,14 @@ const siteRefresh = function (reload) {
       options.includeReply = options.includeReply || false;
       options.pageSize = options.pageSize || 10;
 
+      // 先 init 评论框，再异步获取最近评论，避免同步 callback 下内部状态冲突
+      window.twikoo.init(options);
+
+      setTimeout(function(){
+        positionInit(1);
+        postFancybox('.twikoo');
+      }, 1000);
+
       window.twikoo.getRecentComments({
         envId: options.envId,
         includeReply: options.includeReply,
@@ -111,13 +119,6 @@ const siteRefresh = function (reload) {
       }).catch(function (err) {
         console.log(err)
       });
-
-      window.twikoo.init(options);
-
-      setTimeout(function(){
-        positionInit(1);
-        postFancybox('.twikoo');
-      }, 1000);
     }, window.twikoo);
   }
 
