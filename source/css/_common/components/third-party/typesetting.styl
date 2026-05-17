@@ -1,0 +1,83 @@
+body
+  counter-reset section
+
+h2
+  counter-reset table figure
+
+  &:before
+    counter-increment section
+    content ''
+
+.table-container table caption
+  display table-caption
+  font caption
+  text-align -webkit-center
+
+  &::before
+    counter-increment table
+    content "表 " counter(section) "-" counter(table)
+
+/* 分页样式 */
+.md .pagination
+  display flex
+  justify-content center
+  align-items center
+  margin-top -10px
+  gap 10px
+
+  button
+    padding 8px 16px
+    color var(--grey-0)
+    background-image linear-gradient(to right, var(--color-pink) 0, var(--color-orange) 100%)
+    border none
+    border-radius 4px
+    cursor pointer
+    transition background 0.3s
+
+    &:hover:not(:disabled)
+      background-image linear-gradient(to right, var(--color-pink) 0, var(--color-orange) 100%)
+      box-shadow 0 0 .75rem var(--color-pink-a3)
+
+    &:disabled
+      background var(--grey-5)
+      cursor not-allowed
+
+.md .page-numbers
+  display flex
+  gap 5px
+
+  button
+    min-width 40px
+    background transparent
+    color var(--text-color)
+
+    &.active
+      color var(--grey-0)
+      background-image linear-gradient(to right, var(--color-pink) 0, var(--color-orange) 100%)
+      box-shadow 0 0 .75rem var(--color-pink-a3)
+
+.md .page-info
+  margin-left 15px
+  color var(--text-color)
+
+@media (max-width: 768px)
+  .md .pagination
+    flex-wrap wrap
+
+  .md .page-info
+    margin-top 10px
+    margin-left 0
+    width 100%
+    text-align center
+
+/* 脚注 */
+.md .footnote
+  display block
+  font-family cursive
+  font-size smaller
+  font-weight 700
+  list-style-type none
+  text-align -webkit-match-parent
+
+  &::before
+    content attr(data-mark) attr(data-sep)

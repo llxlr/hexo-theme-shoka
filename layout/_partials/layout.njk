@@ -143,6 +143,7 @@
     outime: false,{%- else %}outime: true,
     template: '{{ __("outime.template") }}',
     {%- endif %}
+    {%- if page.typesetting %}typesetting: {{ page.typesetting|safedump }},{%- endif %}
     ignores : [
       function(uri) {
         return uri.includes('#');

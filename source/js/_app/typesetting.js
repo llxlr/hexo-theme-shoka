@@ -10,10 +10,12 @@ const TablePaginationManager = {
 
   // 初始化所有表格
   initAllTables: function() {
+    Object.assign(this.config, LOCAL.typesetting?.table);
+    if (this.config.enable === false) return;
     const tables = document.querySelectorAll('.table-container > table');
     tables.forEach((table, index) => {
       let caption = table.querySelector('caption');
-      if(!caption){
+      if (!caption) {
         caption = document.createElement('caption');
         table.insertAdjacentElement('afterbegin', caption);
       }
@@ -50,7 +52,8 @@ const TablePaginationManager = {
 
   // 创建分页控件
   createPaginationControls: function(table, state) {
-    // 创建分页容器
+    const self = this; // ★★★ 缓存 this 引用，供回调函数使用
+
     const paginationContainer = document.createElement('div');
     paginationContainer.className = this.config.paginationClass;
 
@@ -58,16 +61,12 @@ const TablePaginationManager = {
     const prevButton = document.createElement('button');
     // 创建按钮图标
     const prevIcon = document.createElement('i');
-    prevIcon.className = 'ic i-angle-left'; // 添加图标类名，例如 Font Awesome 的类
-    prevIcon["aria-label"] = "上一页";
-    // 将图标添加到按钮中
+    prevIcon.className = 'ic i-angle-left';
+    prevIcon.setAttribute('aria-label', '上一页');
     prevButton.appendChild(prevIcon);
-    // 可选：添加文本内容
-    // const prevText = document.createTextNode(' 上一页');
-    // prevButton.appendChild(prevText);
-    prevButton.addEventListener('click', () => {
+    prevButton.addEventListener('click', function() {
       if (state.currentPage > 1) {
-        this.showPage(table, state.currentPage - 1);
+        self.showPage(table, state.currentPage - 1); // 使用 self
       }
     });
     paginationContainer.appendChild(prevButton);
@@ -81,16 +80,12 @@ const TablePaginationManager = {
     const nextButton = document.createElement('button');
     // 创建按钮图标
     const nextIcon = document.createElement('i');
-    nextIcon.className = 'ic i-angle-right'; // 添加图标类名，例如 Font Awesome 的类
-    nextIcon["aria-label"] = "下一页";
-    // 将图标添加到按钮中
+    nextIcon.className = 'ic i-angle-right';
+    nextIcon.setAttribute('aria-label', '下一页');
     nextButton.appendChild(nextIcon);
-    // 可选：添加文本内容
-    // const nextText = document.createTextNode(' 下一页');
-    // nextButton.appendChild(nextText);
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', function() {
       if (state.currentPage < state.totalPages) {
-        this.showPage(table, state.currentPage + 1);
+        self.showPage(table, state.currentPage + 1); // 使用 self
       }
     });
     paginationContainer.appendChild(nextButton);
@@ -144,6 +139,8 @@ const TablePaginationManager = {
 
   // 更新分页控件状态
   updatePaginationControls: function(table) {
+    const self = this; // ★★★ 缓存 this 引用
+
     const state = table._paginationState;
     const controls = table._paginationControls;
 
@@ -169,12 +166,17 @@ const TablePaginationManager = {
     for (let i = startPage; i <= endPage; i++) {
       const pageButton = document.createElement('button');
       pageButton.textContent = i;
+      pageButton.dataset.page = i; // 用 data 属性记录页码
+
       if (i === state.currentPage) {
         pageButton.classList.add('active');
       }
-      pageButton.addEventListener('click', () => {
-        this.showPage(table, i);
-      });
+      (function(btn, pg) {
+        btn.addEventListener('click', function() {
+          self.showPage(table, pg);
+        });
+      })(pageButton, i);
+
       controls.pageNumbersContainer.appendChild(pageButton);
     }
 
