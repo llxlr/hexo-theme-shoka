@@ -17,6 +17,9 @@ hexo.extend.injector.register('head_end', () => {
   }
   vendors.push({ async: true, src: busuanzi });
 
+  if (!(/\.js$/.test(busuanzi))) {
+    return js(vendors).replace(/\.js/, '');
+  }
   return js(vendors);
 })
 
