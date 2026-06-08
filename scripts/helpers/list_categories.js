@@ -68,7 +68,7 @@ hexo.extend.helper.register('_categories', function() {
   if (!categories || !categories.length) return '';
 
   var pangu = hexo.theme.pangu ? require('pangu') : {
-    spacing: data => {
+    spacingText: data => {
       return data;
     }
   };
@@ -84,7 +84,7 @@ hexo.extend.helper.register('_categories', function() {
       let className = cat.slug.split('/');
       className.pop()
       cat.class = className.join(' ');
-      cat.name = pangu.spacing(cat.name);
+      cat.name = pangu.spacingText(cat.name);
 
       if (child.length != 0) {
         cat.child = child;

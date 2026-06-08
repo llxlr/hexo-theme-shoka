@@ -4,7 +4,7 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 
 const pangu = require('pangu') || {
-    spacing: data => {
+    spacingText: data => {
       return data;
     }
   };
@@ -27,7 +27,7 @@ function njkCompile(data) {
   });
   env.addFilter('pangu', dictionary => {
     if (typeof dictionary !== 'undefined' && dictionary !== null) {
-      return pangu.spacing(dictionary);
+      return pangu.spacingText(dictionary);
     }
     return '""';
   });
