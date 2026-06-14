@@ -144,6 +144,10 @@
     template: '{{ __("outime.template") }}',
     {%- endif %}
     {%- if page.typesetting %}typesetting: {{ page.typesetting|safedump }},{%- endif %}
+    label: {
+      table: "{{ __('typesetting.table') }}",
+      figure: "{{ __('typesetting.figure') }}"
+    },
     ignores : [
       function(uri) {
         return uri.includes('#');

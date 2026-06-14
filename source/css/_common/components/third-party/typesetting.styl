@@ -2,20 +2,12 @@ body
   counter-reset section
 
 h2
-  counter-reset table figure
+  counter-reset table
+  counter-reset figure
 
   &:before
     counter-increment section
     content ''
-
-.table-container table caption
-  display table-caption
-  font caption
-  text-align -webkit-center
-
-  &::before
-    counter-increment table
-    content "表 " counter(section) "-" counter(table)
 
 /* 分页样式 */
 .md .pagination

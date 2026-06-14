@@ -134,7 +134,7 @@
 
     &::before {
       counter-increment: figure;
-      content: "图 " counter(section) "-" counter(figure) " ";
+      content: attr(data-type) " " counter(section) "-" counter(figure) " ";
       color: var(--primary-color);
     }
   }

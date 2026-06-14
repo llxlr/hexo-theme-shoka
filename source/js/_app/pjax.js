@@ -157,6 +157,8 @@ const siteRefresh = function (reload) {
 
   TablePaginationManager.initAllTables() // 初始化所有表格的分页
 
+  FigureLabelManager.init() // 初始化图片的标签
+
 }
 
 const siteInit = function () {

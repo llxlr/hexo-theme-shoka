@@ -20,6 +20,7 @@ const TablePaginationManager = {
         table.insertAdjacentElement('afterbegin', caption);
       }
       caption.id = `tab${index + 1}`;
+      caption.dataset.type = LOCAL.label?.table || '表';
       this.initTablePagination(table, index);
     });
   },
@@ -182,5 +183,17 @@ const TablePaginationManager = {
 
     // 更新页面信息
     controls.pageInfo.innerHTML = `第 <span class="current-page">${state.currentPage}</span> 页，共 <span class="total-pages">${state.totalPages}</span> 页`;
+  }
+};
+
+// 图片/图表标签管理器
+const FigureLabelManager = {
+  init: function() {
+    const images = document.querySelectorAll('.image-info');
+    images.forEach(function(element) {
+      if (!element.hasAttribute('data-type')) {
+        element.setAttribute('data-type', LOCAL.label?.figure || '图');
+      }
+    });
   }
 };
