@@ -68,6 +68,7 @@ hexo.extend.generator.register('script', function(locals){
   if(theme.audio) {
     siteConfig.audio = theme.audio
   }
+  siteConfig.meting_api = theme.meting_api || 'https://api.i-meto.com/meting/api';
 
   var text = '';
 

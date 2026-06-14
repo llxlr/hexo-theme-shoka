@@ -256,6 +256,9 @@ ai_summary:
   loadingText: AI 正在绞尽脑汁想思路 ING···
   modelName: DeepSeek R1
 
+# Meting API 服务器地址
+meting_api: https://api.i-meto.com/meting/api
+
 # bgm
 audio:
   # - title: 列表1
