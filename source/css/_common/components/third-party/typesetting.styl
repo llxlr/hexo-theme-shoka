@@ -2,12 +2,9 @@ body
   counter-reset section
 
 h2
-  counter-reset table
-  counter-reset figure
-
-  &:before
-    counter-increment section
-    content ''
+  counter-set: table 0
+  counter-reset: figure
+  counter-increment: section
 
 /* 分页样式 */
 .md .pagination

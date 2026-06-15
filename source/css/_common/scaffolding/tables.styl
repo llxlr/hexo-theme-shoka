@@ -2,6 +2,7 @@
   overflow: auto;
 
   table {
+    counter-increment: table;
     border-collapse: collapse;
     border-spacing: 0;
     font-size: $font-size-small;
@@ -21,7 +22,6 @@
 
     caption {
       &::before {
-        counter-increment: table;
         content: attr(data-type) " " counter(section) "-" counter(table);
         position: inherit;
         color: var(--primary-color);

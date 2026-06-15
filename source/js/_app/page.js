@@ -106,6 +106,7 @@ const postFancybox = function(p) {
           var txt = document.createTextNode(info);
           para.appendChild(txt);
           para.addClass(captionClass);
+          para.setAttribute('data-type', LOCAL.label?.figure || '图');
           element.insertAfter(para);
         }
       });
