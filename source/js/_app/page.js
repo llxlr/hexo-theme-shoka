@@ -191,8 +191,13 @@ const postBeauty = function () {
 
     var code_container = element.child('.code-container');
     var caption = element.child('figcaption');
+    var comma = '', code = '';
+    code_container.find('pre').forEach(function(line) {
+      code += comma + line.innerText;
+      comma = '\n';
+    });
 
-    element.insertAdjacentHTML('beforeend', '<div class="operation"><span class="breakline-btn"><i class="ic i-align-left"></i></span><span class="copy-btn"><i class="ic i-clipboard"></i></span><span class="fullscreen-btn"><i class="ic i-expand"></i></span></div>');
+    element.insertAdjacentHTML('beforeend','<div class="operation"><span class="breakline-btn"><i class="ic i-align-left"></i></span><span class="runner-btn"><i class="ic i-play"></i></span><span class="more-btn"><i class="ic i-more"></i></span><span class="copy-btn"><i class="ic i-clipboard"></i></span><span class="download-btn"><i class="ic i-download"></i></span><span class="fullscreen-btn"><i class="ic i-expand"></i></span></div>');
 
     var copyBtn = element.child('.copy-btn');
     if(LOCAL.nocopy) {
@@ -200,12 +205,6 @@ const postBeauty = function () {
     } else {
       copyBtn.addEventListener('click', function (event) {
         var target = event.currentTarget;
-        var comma = '', code = '';
-        code_container.find('pre').forEach(function(line) {
-          code += comma + line.innerText;
-          comma = '\n'
-        })
-
         clipBoard(code, function(result) {
           target.child('.ic').className = result ? 'ic i-check' : 'ic i-times';
           target.blur();
@@ -219,6 +218,35 @@ const postBeauty = function () {
       });
     }
 
+    var moreBtn = element.child('.more-btn');
+    moreBtn.addEventListener('click', function (event) {
+      moreBtn.classList.toggle('dropdown');
+    });
+
+    var runnerBtn = element.child('.runner-btn');
+    var lang = caption && caption.attr('data-lang');
+    if (lang && (LOCAL.runnable || CONFIG.runnable || []).includes(lang)) {
+      var running = false;
+      runnerBtn.addEventListener('click', function (event) {
+        var target = event.currentTarget;
+        if (running) return;
+        running = true;
+        target.child('.ic').className = 'ic i-pause';
+
+        try {
+          // TODO: replace with actual run function
+          console.log(code); // 打印到控制台，方便调试
+        } finally {
+          target.child('.ic').className = 'ic i-play';
+          running = false;
+        }
+      });
+    } else {
+      runnerBtn.remove();
+      moreBtn.remove();
+      element.child('.breakline-btn').style.display = 'inline';
+    };
+
     var breakBtn = element.child('.breakline-btn');
     breakBtn.addEventListener('click', function (event) {
       var target = event.currentTarget;
@@ -229,6 +257,24 @@ const postBeauty = function () {
         element.addClass('breakline');
         target.child('.ic').className = 'ic i-align-justify';
       }
+    });
+
+    var downloadBtn = element.child('.download-btn');
+    downloadBtn.addEventListener('click', function (event) {
+      // const cls = element.className
+      //   .replace(/\bhighlight\b|\braw\b|\bbreakline\b|\bfullscreen\b/g, '')
+      //   .trim();
+      const cls = element.attr('data-runnable');
+      const ext = cls || 'txt';
+      const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'code.' + ext.toLowerCase();
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
 
     var fullscreenBtn = element.child('.fullscreen-btn');

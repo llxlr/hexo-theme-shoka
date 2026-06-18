@@ -144,6 +144,7 @@
     template: '{{ __("outime.template") }}',
     {%- endif %}
     {%- if page.typesetting %}typesetting: {{ page.typesetting|safedump }},{%- endif %}
+    {%- if page.runnable %}runnable: {{ page.runnable|safedump }},{%- endif %}
     label: {
       table: "{{ __('typesetting.table') }}",
       figure: "{{ __('typesetting.figure') }}"

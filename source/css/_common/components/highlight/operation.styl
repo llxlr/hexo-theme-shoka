@@ -16,6 +16,26 @@
     }
   }
 
+  .breakline-btn,
+  .runner-btn {
+    display: none;
+  }
+
+  &:has(.more-btn.dropdown) {
+    .breakline-btn,
+    .runner-btn {
+      display: inline;
+    }
+  }
+
+  .more-btn.dropdown {
+    color: var(--color-green);
+
+    &:hover {
+      color: var(--color-green);
+    }
+  }
+
 }
 
 
