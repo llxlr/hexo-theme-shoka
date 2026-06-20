@@ -71,7 +71,7 @@ code,
     display: inline-flex;
     font-size: $font-size-small;
     font-weight: 700;
-    padding: 0 7rem 0 5rem;
+    padding: 0 9rem 0 5rem;
     min-height: 2.5rem;
     width: 100%;
     text-align: center;
@@ -120,6 +120,24 @@ code,
     .show-btn{
       position: fixed;
     }
+  }
+
+  &.fold {
+    figcaption {
+      margin: 0;
+    }
+
+    .code-container {
+      display: none;
+    }
+
+    .fold-btn .ic {
+      transform: rotate(90deg);
+    }
+  }
+
+  .fold-btn .ic {
+    transition: transform 0.3s ease;
   }
 
   &.breakline {

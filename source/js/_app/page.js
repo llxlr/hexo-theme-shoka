@@ -197,7 +197,7 @@ const postBeauty = function () {
       comma = '\n';
     });
 
-    element.insertAdjacentHTML('beforeend','<div class="operation"><span class="breakline-btn"><i class="ic i-align-left"></i></span><span class="runner-btn"><i class="ic i-play"></i></span><span class="more-btn"><i class="ic i-more"></i></span><span class="copy-btn"><i class="ic i-clipboard"></i></span><span class="download-btn"><i class="ic i-download"></i></span><span class="fullscreen-btn"><i class="ic i-expand"></i></span></div>');
+    element.insertAdjacentHTML('beforeend','<div class="operation"><span class="breakline-btn"><i class="ic i-align-left"></i></span><span class="runner-btn"><i class="ic i-play"></i></span><span class="more-btn"><i class="ic i-more"></i></span><span class="copy-btn"><i class="ic i-clipboard"></i></span><span class="download-btn"><i class="ic i-download"></i></span><span class="fullscreen-btn"><i class="ic i-expand"></i></span><span class="fold-btn"><i class="ic i-angle-down"></i></span></div>');
 
     var copyBtn = element.child('.copy-btn');
     if(LOCAL.nocopy) {
@@ -299,6 +299,11 @@ const postBeauty = function () {
     }
     fullscreenBtn.addEventListener('click', fullscreenHandle);
     caption && caption.addEventListener('click', fullscreenHandle);
+
+    var foldBtn = element.child('.fold-btn');
+    foldBtn.addEventListener('click', function (event) {
+      element.toggleClass('fold');
+    });
 
     if(code_container && code_container.find("tr").length > 15) {
 
