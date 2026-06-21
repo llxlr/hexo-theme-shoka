@@ -57,6 +57,7 @@ code,
   &::before {
     content: " ";
     position: absolute;
+    z-index: 1;
     border-radius: 50%;
     background: #fc625d;
     width: .75rem;
@@ -67,16 +68,17 @@ code,
   }
 
   figcaption {
+    position: relative;
     color: var(--grey-4);
     display: inline-flex;
     font-size: $font-size-small;
     font-weight: 700;
-    padding: 0 9rem 0 5rem;
+    padding: 0 8rem 0 5rem;
+    transition: padding-right .3s ease;
     min-height: 2.5rem;
     width: 100%;
     text-align: center;
     align-items: center;
-    justify-content: space-between;
 
     background-color: var(--grey-3);
     margin-bottom: .625rem;
@@ -84,17 +86,30 @@ code,
     &::before {
       content: attr(data-lang);
       text-transform: Capitalize;
+      position: relative;
+      z-index: 1;
     }
 
-    span, a {
-      display: block;
-      margin-left: .625rem;
+    span {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 5.5rem;
+      right: 8.5rem;
+      text-align: center;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     a {
+      display: block;
+      flex: 1;
+      text-align: right;
+      margin-left: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: var(--grey-5);
 
       &:hover {
@@ -120,6 +135,10 @@ code,
     .show-btn{
       position: fixed;
     }
+  }
+
+  &.fullscreen:has(> .code-runner-output-wrap) {
+    padding-bottom: 6rem;
   }
 
   &.fold {
@@ -153,7 +172,7 @@ code,
 }
 
 .highlight:has(.more-btn.dropdown) figcaption {
-  padding-right: 10.5rem;
+  padding-right: 13rem;
 }
 
 

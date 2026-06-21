@@ -16,15 +16,26 @@
     }
   }
 
-  .breakline-btn,
-  .runner-btn {
+  > .dropdown-panel {
     display: none;
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin: 0;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    gap: .625rem;
+    padding: .125rem .3125rem;
+
+    span {
+      margin: 0;
+    }
   }
 
   &:has(.more-btn.dropdown) {
-    .breakline-btn,
-    .runner-btn {
-      display: inline;
+    > .dropdown-panel {
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -37,5 +48,3 @@
   }
 
 }
-
-

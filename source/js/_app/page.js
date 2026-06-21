@@ -218,33 +218,72 @@ const postBeauty = function () {
       });
     }
 
-    var moreBtn = element.child('.more-btn');
-    moreBtn.addEventListener('click', function (event) {
-      moreBtn.classList.toggle('dropdown');
-    });
-
     var runnerBtn = element.child('.runner-btn');
     var lang = caption && caption.attr('data-lang');
     if (lang && (LOCAL.runnable || CONFIG.runnable || []).includes(lang)) {
+      caption.insertAdjacentHTML('afterend', '<div id="runnerStatus" class="code-runner-status" data-status="已加载" title="运行时正在加载…"><span><i class="ic i-cao"></i></span></div>');
       var running = false;
+      var abortCtrl = null;
+
+      var outputEl = null;
+      var prevOutputEl = null;
+      var outputWrap = null;
+      var clearTimer = null;
+
       runnerBtn.addEventListener('click', function (event) {
         var target = event.currentTarget;
-        if (running) return;
+        if (running) {
+          // 停止：中断执行 + 删除所有输出 + 恢复图标
+          if (abortCtrl) { abortCtrl.abort(); abortCtrl = null; }
+          if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; }
+          if (outputEl) { outputEl.remove(); outputEl = null; }
+          if (prevOutputEl) { prevOutputEl.remove(); prevOutputEl = null; }
+          if (outputWrap && !outputWrap.children.length) { outputWrap.remove(); outputWrap = null; }
+          target.child('.ic').className = 'ic i-play';
+          running = false;
+          return;
+        }
+        // 运行：旧输出暂留对比，3 秒后清除
+        if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; }
+        if (prevOutputEl) { prevOutputEl.remove(); prevOutputEl = null; }
+        if (outputEl) {
+          prevOutputEl = outputEl;
+          outputEl = null;
+          clearTimer = setTimeout(function () {
+            if (prevOutputEl) { prevOutputEl.remove(); prevOutputEl = null; }
+            if (outputWrap && !outputWrap.children.length) { outputWrap.remove(); outputWrap = null; }
+            clearTimer = null;
+          }, 3000);
+        }
+
         running = true;
         target.child('.ic').className = 'ic i-pause';
 
-        try {
-          // TODO: replace with actual run function
-          console.log(code); // 打印到控制台，方便调试
-        } finally {
+        abortCtrl = new AbortController();
+        if (element.hasClass('fullscreen')) {
+          // 全屏模式：wrapper 整体 sticky，新输出插到顶部，旧结果在下方
+          if (!outputWrap) {
+            outputWrap = document.createElement('div');
+            outputWrap.className = 'code-runner-output-wrap';
+            element.appendChild(outputWrap);
+          }
+          outputWrap.insertAdjacentHTML('afterbegin', '<pre class="code-runner-output fullscreen"><code>测试</code></pre>');
+          outputEl = outputWrap.firstElementChild;
+        } else {
+          element.insertAdjacentHTML('afterend', '<pre class="code-runner-output"><code>测试</code></pre>');
+          outputEl = element.nextElementSibling;
+        }
+        var outputCode = outputEl.querySelector('code');
+
+        window.__runCode(code, lang, outputCode, abortCtrl.signal).finally(function () {
+          // 完成：恢复图标
           target.child('.ic').className = 'ic i-play';
           running = false;
-        }
+          abortCtrl = null;
+        });
       });
     } else {
       runnerBtn.remove();
-      moreBtn.remove();
-      element.child('.breakline-btn').style.display = 'inline';
     };
 
     var breakBtn = element.child('.breakline-btn');
@@ -261,9 +300,8 @@ const postBeauty = function () {
 
     var downloadBtn = element.child('.download-btn');
     downloadBtn.addEventListener('click', function (event) {
-      // const cls = element.className
-      //   .replace(/\bhighlight\b|\braw\b|\bbreakline\b|\bfullscreen\b/g, '')
-      //   .trim();
+      var target = event.currentTarget;
+      target.child('.ic').className = 'ic i-check';
       const cls = element.attr('data-runnable');
       const ext = cls || 'txt';
       const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
@@ -275,6 +313,11 @@ const postBeauty = function () {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    });
+    downloadBtn.addEventListener('mouseleave', function (event) {
+      setTimeout(function () {
+        event.target.child('.ic').className = 'ic i-download';
+      }, 1000);
     });
 
     var fullscreenBtn = element.child('.fullscreen-btn');
@@ -304,6 +347,44 @@ const postBeauty = function () {
     foldBtn.addEventListener('click', function (event) {
       element.toggleClass('fold');
     });
+
+    var moreBtn = element.child('.more-btn');
+    moreBtn.addEventListener('click', function (event) {
+      moreBtn.classList.toggle('dropdown');
+    });
+
+    // 动态管理 more-btn 下拉：常驻按钮以外全部收入左侧面板
+    (function() {
+      var operation = element.child('.operation');
+      var allBtns = operation.querySelectorAll('span:not(.more-btn)');
+      for (var j = 0; j < allBtns.length; j++) {
+        allBtns[j].classList.remove('dropdown-item');
+      }
+      // 移除旧面板（Pjax 场景）
+      var oldPanel = operation.querySelector('.dropdown-panel');
+      if (oldPanel) oldPanel.remove();
+
+      // 分离常驻按钮（始终可见）和可隐藏按钮（进入面板）
+      var hidable = [];
+      for (var m = 0; m < allBtns.length; m++) {
+        if (!allBtns[m].matches('.copy-btn, .fullscreen-btn, .fold-btn')) {
+          hidable.push(allBtns[m]);
+        }
+      }
+
+      if (hidable.length > 0) {
+        var panel = document.createElement('span');
+        panel.className = 'dropdown-panel';
+        for (var k = 0; k < hidable.length; k++) {
+          hidable[k].classList.add('dropdown-item');
+          panel.appendChild(hidable[k]);
+        }
+        operation.appendChild(panel);
+        moreBtn.style.display = '';
+      } else {
+        moreBtn.style.display = 'none';
+      }
+    })();
 
     if(code_container && code_container.find("tr").length > 15) {
 
