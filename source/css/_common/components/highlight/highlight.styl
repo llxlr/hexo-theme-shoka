@@ -67,6 +67,34 @@ code,
     box-shadow: 1.25rem 0 #fdbc40, 2.5rem 0 #35cd4b;
   }
 
+  .code-runner-status {
+    position: absolute;
+    left: 3.25rem;
+    top: .8125rem;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 50%;
+    background: #35cd4b; /* 绿：覆盖原绿灯，默认不可见 */
+    cursor: help;
+    z-index: 2;
+
+    &.loading {
+      left: 2rem;
+      background: #fdbc40;
+      animation: runner-loading 1.2s ease-in-out infinite;
+    }
+
+    &.ready {
+      animation: runner-breathe 1.5s ease-in-out infinite;
+    }
+
+    &.error {
+      left: .75rem;
+      background: #fc625d;
+      animation: runner-error 1.2s ease-in-out infinite;
+    }
+  }
+
   figcaption {
     position: relative;
     color: var(--grey-4);
@@ -385,4 +413,45 @@ code,
   .javascript .function {
     color: var(--color-purple);
   }
+}
+
+/* ========== 代码运行输出 ========== */
+.code-runner-output {
+  padding: 14px 30px;
+  margin-top: -1em;
+  background: transparent;
+  font-family: Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  white-space: pre-wrap;
+  max-height: 100px;
+  overflow-y: auto;
+
+  &.fullscreen {
+    margin: 0;
+    padding: 10px 16px;
+  }
+}
+
+.code-runner-output-wrap {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+/* ========== 呼吸动画 ========== */
+@keyframes runner-loading {
+  0%, 100% { opacity: 1; box-shadow: none; }
+  50% { opacity: .35; box-shadow: 0 0 .375rem .125rem #fdbc40; }
+}
+
+@keyframes runner-breathe {
+  0%, 100% { opacity: 1; box-shadow: none; }
+  50% { opacity: .35; box-shadow: 0 0 .375rem .125rem #35cd4b; }
+}
+
+@keyframes runner-error {
+  0%, 100% { opacity: 1; box-shadow: none; }
+  50% { opacity: .35; box-shadow: 0 0 .375rem .125rem #fc625d; }
 }

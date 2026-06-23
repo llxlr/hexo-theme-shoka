@@ -221,7 +221,12 @@ const postBeauty = function () {
     var runnerBtn = element.child('.runner-btn');
     var lang = caption && caption.attr('data-lang');
     if (lang && (LOCAL.runnable || CONFIG.runnable || []).includes(lang)) {
-      caption.insertAdjacentHTML('afterend', '<div id="runnerStatus" class="code-runner-status" data-status="已加载" title="运行时正在加载…"><span><i class="ic i-cao"></i></span></div>');
+      var status = document.createElement('div');
+      status.id = 'runnerStatus';
+      status.className = 'code-runner-status';
+      status.title = '运行时正在加载…';
+      status.dataset.status = '加载中…';
+      caption.appendChild(status);
       var running = false;
       var abortCtrl = null;
 
@@ -275,7 +280,7 @@ const postBeauty = function () {
         }
         var outputCode = outputEl.querySelector('code');
 
-        window.__runCode(code, lang, outputCode, abortCtrl.signal).finally(function () {
+        window.__runCode(code, lang, status, outputCode, abortCtrl.signal).finally(function () {
           // 完成：恢复图标
           target.child('.ic').className = 'ic i-play';
           running = false;
