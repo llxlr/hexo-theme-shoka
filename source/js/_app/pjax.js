@@ -169,7 +169,6 @@ const siteInit = function () {
             selectors: [
               'head title',
               '.languages',
-              '.twikoo',
               '.pjax',
               'script[data-config]'
             ],
