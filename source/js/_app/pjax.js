@@ -155,9 +155,13 @@ const siteRefresh = function (reload) {
 
   renderAISummary() //AI文章总结
 
-  TablePaginationManager.initAllTables() // 初始化所有表格的分页
+  if (typeof TablePaginationManager !== 'undefined') {
+    TablePaginationManager.initAllTables() // 初始化所有表格的分页
+  }
 
-  FigureLabelManager.init() // 初始化图片的标签
+  if (typeof FigureLabelManager !== 'undefined') {
+    FigureLabelManager.init() // 初始化图片的标签
+  }
 
 }
 

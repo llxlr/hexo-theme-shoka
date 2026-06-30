@@ -86,7 +86,7 @@ hexo.extend.generator.register('script', function(locals){
     text += fs.readFileSync('themes/shoka/source/js/_app/summary.js').toString();
   }
 
-  if(config.typesetting && config.typesetting.enable) {
+  if(theme.typesetting && theme.typesetting.enable) {
     text += fs.readFileSync('themes/shoka/source/js/_app/typesetting.js').toString();
   }
 
