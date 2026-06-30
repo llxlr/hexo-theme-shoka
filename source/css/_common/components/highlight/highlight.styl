@@ -426,6 +426,12 @@ code,
   max-height: 100px;
   overflow-y: auto;
 
+  // 媒体输出（图片/动图/视频/音频）不需要限高
+  &:has(.media-wrapper) {
+    max-height: none;
+    overflow-y: visible;
+  }
+
   &.fullscreen {
     margin: 0;
     padding: 10px 16px;

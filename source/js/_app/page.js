@@ -220,7 +220,9 @@ const postBeauty = function () {
 
     var runnerBtn = element.child('.runner-btn');
     var lang = caption && caption.attr('data-lang');
-    if (lang && (LOCAL.runnable || CONFIG.runnable || []).includes(lang)) {
+    var forcedRunnable = element.attr('data-runnable') === 'true';
+    var runnable = (LOCAL.runnable || CONFIG.runnable || []).map(function (s) { return String(s).toLowerCase(); });
+    if (forcedRunnable || (lang && runnable.includes(lang.toLowerCase()))) {
       var status = document.createElement('div');
       status.id = 'runnerStatus';
       status.className = 'code-runner-status';
@@ -236,6 +238,7 @@ const postBeauty = function () {
       var clearTimer = null;
 
       runnerBtn.addEventListener('click', function (event) {
+        console.debug('[runnerBtn] ENTER click handler');
         var target = event.currentTarget;
         if (running) {
           // 停止：中断执行 + 删除所有输出 + 恢复图标
@@ -280,6 +283,16 @@ const postBeauty = function () {
         }
         var outputCode = outputEl.querySelector('code');
 
+        console.debug('[runnerBtn] window.__runCode type:', typeof window.__runCode);
+        if (typeof window.__runCode !== 'function') {
+          outputCode.textContent = '✗ 运行环境未加载，请刷新页面后重试';
+          status.className = 'code-runner-status error';
+          target.child('.ic').className = 'ic i-play';
+          running = false;
+          abortCtrl = null;
+          return;
+        }
+        console.debug('[runnerBtn] calling window.__runCode with lang=%s code=%s', lang, code.slice(0,50));
         window.__runCode(code, lang, status, outputCode, abortCtrl.signal).finally(function () {
           // 完成：恢复图标
           target.child('.ic').className = 'ic i-play';
@@ -307,7 +320,7 @@ const postBeauty = function () {
     downloadBtn.addEventListener('click', function (event) {
       var target = event.currentTarget;
       target.child('.ic').className = 'ic i-check';
-      const cls = element.attr('data-runnable');
+      const cls = caption.attr('data-ext');
       const ext = cls || 'txt';
       const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
