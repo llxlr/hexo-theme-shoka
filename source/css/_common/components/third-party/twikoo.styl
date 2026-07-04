@@ -1436,6 +1436,19 @@
   max-height 500px
   position relative
 
+  // 折叠时底部渐变遮罩（参考 valine 的做法）
+  &:not(.tk-content-expand)::after
+    display block
+    content ""
+    position absolute
+    width 100%
+    left 0
+    bottom 0
+    height 3.5em
+    background linear-gradient(180deg, var(--grey-1-a0), var(--grey-1))
+    z-index 1
+    pointer-events none
+
   img
     display inline
     vertical-align bottom !important
@@ -1458,6 +1471,19 @@
   overflow hidden
   position relative
 
+  // 折叠时底部渐变遮罩（参考 valine 的做法）
+  &:not(.tk-replies-expand)::after
+    display block
+    content ""
+    position absolute
+    width 100%
+    left 0
+    bottom 0
+    height 3em
+    background linear-gradient(180deg, var(--grey-1-a0), var(--grey-1))
+    z-index 1
+    pointer-events none
+
 .tk-replies-expand
   max-height none
   overflow unset
@@ -1467,15 +1493,38 @@
   font-size 0.75em
   width 100%
   cursor pointer
-  padding 0.75em
+  padding 0.5em
   text-align center
-  transition all 0.5s
+  transition all 0.25s ease
+  color var(--grey-5)
+  background transparent
+  border none
+  outline none
+  user-select none
+
+  // 小箭头暗示可展开
+  &::after
+    content ""
+    display inline-block
+    width 0.4em
+    height 0.4em
+    margin-left 0.4em
+    border-right 1.5px solid currentColor
+    border-bottom 1.5px solid currentColor
+    transform rotate(45deg) translateY(-0.15em)
+    transition transform 0.25s ease
+    vertical-align middle
 
   &:hover
-    background-color rgba(0,0,0,0.13)
+    color var(--primary-color)
+    letter-spacing 0.5px
+
+    &::after
+      transform rotate(45deg) translateY(0.05em)
 
   &:active
-    background-color rgba(0,0,0,0.19)
+    color var(--color-aqua)
+    transform scale(0.98)
 
 // Lightbox
 .tk-lightbox
