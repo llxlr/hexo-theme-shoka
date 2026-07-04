@@ -106,8 +106,13 @@ $times {
         }
       }
 
-      .qed::before {
+      .qed {
         float: right;
+        font-size: $font-size-smaller;
+        color: var(--grey-4);
+        font-weight: 500;
+        letter-spacing: .0625rem;
+        user-select: none;
       }
     }
   }
