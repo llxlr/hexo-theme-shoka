@@ -215,7 +215,7 @@ const goToBottomHandle = function () {
 }
 
 const goToCommentHandle = function () {
-  pageScroll($('#comments'));
+  pageScroll($('#comments') || $('#tcomments'));
 }
 
 const headertopdown = function () {
