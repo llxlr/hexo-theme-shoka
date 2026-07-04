@@ -220,7 +220,7 @@ const postBeauty = function () {
 
     var runnerBtn = element.child('.runner-btn');
     var lang = caption && caption.attr('data-lang');
-    var forcedRunnable = element.attr('data-runnable') === 'true';
+    var forcedRunnable = caption && caption.attr('data-runnable') === 'true';
     var runnable = (LOCAL.runnable || CONFIG.runnable || []).map(function (s) { return String(s).toLowerCase(); });
     if (forcedRunnable || (lang && runnable.includes(lang.toLowerCase()))) {
       var status = document.createElement('div');
