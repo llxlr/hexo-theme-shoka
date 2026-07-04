@@ -138,6 +138,7 @@
       proof: "{{ __('quiz.proof') }}",
       prove: "{{ __('quiz.prove') }}",
       algorithm: "{{ __('quiz.algorithm') }}"
+      {%- if page.quiz_shuffle %},shuffle: true{%- endif %}
     },{%- endif %}
     {%- if page.outime === false %}
     outime: false,{%- else %}outime: true,

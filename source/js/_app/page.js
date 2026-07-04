@@ -450,6 +450,47 @@ const postBeauty = function () {
     });
   });
 
+  //shuffle quiz options — Fisher-Yates helper
+  function shuffleQuizOptions(quiz) {
+    var optionsUl = quiz.querySelector('ul.options');
+    if (!optionsUl) return;
+
+    var items = Array.from(optionsUl.children);
+    if (items.length < 2) return;
+
+    var indices = items.map(function(_, i) { return i; });
+    for (var i = indices.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = indices[i];
+      indices[i] = indices[j];
+      indices[j] = tmp;
+    }
+
+    var shuffled = indices.map(function(idx) { return items[idx]; });
+    shuffled.forEach(function(li) { optionsUl.appendChild(li); });
+
+    var blockquoteUl = quiz.querySelector('blockquote ul.options');
+    if (blockquoteUl) {
+      var explainItems = Array.from(blockquoteUl.children);
+      if (explainItems.length === items.length) {
+        var shuffledExplain = indices.map(function(idx) { return explainItems[idx]; });
+        shuffledExplain.forEach(function(li) { blockquoteUl.appendChild(li); });
+      }
+    }
+  }
+
+  if (LOCAL.quiz && LOCAL.quiz.shuffle) {
+    // 全局打乱：所有题目默认打乱，.no-shuffle 可排除
+    $.each('.quiz:not(.no-shuffle)', function (quiz) {
+      shuffleQuizOptions(quiz);
+    });
+  } else {
+    // 按题打乱：仅 .quiz.shuffle 的题目会打乱
+    $.each('.quiz.shuffle', function (quiz) {
+      shuffleQuizOptions(quiz);
+    });
+  }
+
   //quiz
   $.each('.quiz > ul.options li', function (element) {
     element.addEventListener('click', function (event) {
