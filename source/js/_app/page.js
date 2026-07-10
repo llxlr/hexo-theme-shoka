@@ -641,103 +641,192 @@ const loadComments = function () {
   }
 }
 
-const algoliaSearch = function(pjax) {
-  if(CONFIG.search === null)
-    return
+const searchController = function(pjax) {
+  // Determine available search modes
+  var hasAlgolia = CONFIG.search !== null;
+  var hasLocal = typeof CONFIG.localSearch !== 'undefined';
+  if (!hasAlgolia && !hasLocal) return;
 
-  if(!siteSearch) {
+  var searchModes = [];
+  var modeLabels = { algolia: LOCAL.search.mode.algolia, local: LOCAL.search.mode.local };
+  if (hasAlgolia) searchModes.push({ key: 'algolia', label: modeLabels.algolia });
+  if (hasLocal) searchModes.push({ key: 'local', label: modeLabels.local });
+
+  var activeMode = searchModes[0].key;
+  var localSearchInstance = null;
+  var algoliaInstance = null;
+
+  // ── Build popup DOM once ──────────────────────────────────────────
+  if (!siteSearch) {
+    var resultsHTML = '';
+    if (hasAlgolia) {
+      resultsHTML += '<div id="search-algolia"><div id="search-stats"></div><div id="search-hits"></div><div id="search-pagination"></div></div>';
+    }
+    if (hasLocal) {
+      resultsHTML += '<div id="search-local" style="display:none"><div id="local-search-loading-status"></div><div class="search-result-stats"></div><hr><div id="local-search-results"></div><div id="local-search-pagination"></div></div>';
+    }
+
+    var tabsHTML = '';
+    if (searchModes.length > 1) {
+      tabsHTML = '<div class="search-mode-tabs">' +
+        searchModes.map(function(mode) {
+          return '<span class="search-mode-tab" data-search-mode="' + mode.key + '">' + mode.label + '</span>';
+        }).join('') +
+        '</div>';
+    }
+
     siteSearch = BODY.createChild('div', {
       id: 'search',
-      innerHTML: '<div class="inner"><div class="header"><span class="icon"><i class="ic i-search"></i></span><div class="search-input-container"></div><span class="close-btn"><i class="ic i-times-circle"></i></span></div><div class="results"><div class="inner"><div id="search-stats"></div><div id="search-hits"></div><div id="search-pagination"></div></div></div></div>'
+      innerHTML: '<div class="inner"><div class="header"><span class="icon"><i class="ic i-search"></i></span><div class="search-input-container"></div><span class="close-btn"><i class="ic i-times-circle"></i></span></div>' + tabsHTML + '<div class="results"><div class="inner">' + resultsHTML + '</div></div></div>'
     });
   }
 
-  var search = instantsearch({
-    indexName: CONFIG.search.indexName,
-    searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
-    searchFunction: function(helper) {
-      var searchInput = $('.search-input');
-      if (searchInput.value) {
-        helper.search();
-      }
-    }
-  });
-
-  search.on('render', function() {
-    pjax.refresh($('#search-hits'));
-  });
-
-  // Registering Widgets
-  search.addWidgets([
-    instantsearch.widgets.configure({
-      hitsPerPage: CONFIG.search.hits.per_page || 10
-    }),
-
-    instantsearch.widgets.searchBox({
-      container           : '.search-input-container',
-      placeholder         : LOCAL.search.placeholder,
-      // Hide default icons of algolia search
-      showReset           : false,
-      showSubmit          : false,
-      showLoadingIndicator: false,
-      cssClasses          : {
-        input: 'search-input'
-      }
-    }),
-
-    instantsearch.widgets.stats({
-      container: '#search-stats',
-      templates: {
-        text: function(data) {
-          var stats = LOCAL.search.stats
-            .replace(/\$\{hits}/, data.nbHits)
-            .replace(/\$\{time}/, data.processingTimeMS);
-          return stats + '<span class="algolia-powered"></span><hr>';
+  // ── Initialize Algolia ────────────────────────────────────────────
+  if (hasAlgolia) {
+    var search = instantsearch({
+      indexName: CONFIG.search.indexName,
+      searchClient  : algoliasearch(CONFIG.search.appID, CONFIG.search.apiKey),
+      searchFunction: function(helper) {
+        var searchInput = $('.search-input');
+        if (searchInput.value) {
+          helper.search();
         }
       }
-    }),
+    });
 
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: function(data) {
-          var cats = data.categories ? '<span>'+data.categories.join('<i class="ic i-angle-right"></i>')+'</span>' : '';
-          return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
+    search.on('render', function() {
+      pjax.refresh($('#search-hits'));
+    });
+
+    // Registering Widgets
+    search.addWidgets([
+      instantsearch.widgets.configure({
+        hitsPerPage: CONFIG.search.hits.per_page || 10
+      }),
+
+      instantsearch.widgets.searchBox({
+        container           : '.search-input-container',
+        placeholder         : LOCAL.search.placeholder,
+        // Hide default icons of algolia search
+        showReset           : false,
+        showSubmit          : false,
+        showLoadingIndicator: false,
+        cssClasses          : {
+          input: 'search-input'
+        }
+      }),
+
+      instantsearch.widgets.stats({
+        container: '#search-stats',
+        templates: {
+          text: function(data) {
+            var stats = LOCAL.search.stats
+              .replace(/\$\{hits}/, data.nbHits)
+              .replace(/\$\{time}/, data.processingTimeMS);
+            return stats + '<span class="algolia-powered"></span><hr>';
+          }
+        }
+      }),
+
+      instantsearch.widgets.hits({
+        container: '#search-hits',
+        templates: {
+          item: function(data) {
+            var cats = data.categories ? '<span>'+data.categories.join('<i class="ic i-angle-right"></i>')+'</span>' : '';
+            return '<a href="' + CONFIG.root + data.path +'">'+cats+data._highlightResult.title.value+'</a>';
+          },
+          empty: function(data) {
+            return '<div id="hits-empty">'+
+                LOCAL.search.empty.replace(/\$\{query}/, data.query) +
+              '</div>';
+          }
         },
-        empty: function(data) {
-          return '<div id="hits-empty">'+
-              LOCAL.search.empty.replace(/\$\{query}/, data.query) +
-            '</div>';
+        cssClasses: {
+          item: 'item'
         }
-      },
-      cssClasses: {
-        item: 'item'
+      }),
+
+      instantsearch.widgets.pagination({
+        container: '#search-pagination',
+        scrollTo : false,
+        showFirst: false,
+        showLast : false,
+        templates: {
+          first   : '<i class="ic i-angle-double-left"></i>',
+          last    : '<i class="ic i-angle-double-right"></i>',
+          previous: '<i class="ic i-angle-left"></i>',
+          next    : '<i class="ic i-angle-right"></i>'
+        },
+        cssClasses: {
+          root        : 'pagination',
+          item        : 'pagination-item',
+          link        : 'page-number',
+          selectedItem: 'current',
+          disabledItem: 'disabled-item'
+        }
+      })
+    ]);
+
+    search.start();
+    algoliaInstance = search;
+  }
+
+  // ── Initialize Local Search ───────────────────────────────────────
+  if (hasLocal) {
+    localSearchInstance = initLocalSearch(pjax);
+  }
+
+  // ── Mode switching ────────────────────────────────────────────────
+  function switchMode(modeKey) {
+    if (modeKey === activeMode) return;
+    activeMode = modeKey;
+
+    // Update tab active states
+    $.all('.search-mode-tab').forEach(function(tab) {
+      tab.classList.toggle('active', tab.dataset.searchMode === modeKey);
+    });
+
+    var algoliaWrap = document.getElementById('search-algolia');
+    var localWrap = document.getElementById('search-local');
+
+    if (modeKey === 'algolia') {
+      if (localSearchInstance) localSearchInstance.deactivate();
+      if (algoliaWrap) {
+        algoliaWrap.style.display = '';
+        // Re-trigger Algolia search with current input
+        if (algoliaInstance && algoliaInstance.helper) {
+          algoliaInstance.helper.search();
+        }
       }
-    }),
-
-    instantsearch.widgets.pagination({
-      container: '#search-pagination',
-      scrollTo : false,
-      showFirst: false,
-      showLast : false,
-      templates: {
-        first   : '<i class="ic i-angle-double-left"></i>',
-        last    : '<i class="ic i-angle-double-right"></i>',
-        previous: '<i class="ic i-angle-left"></i>',
-        next    : '<i class="ic i-angle-right"></i>'
-      },
-      cssClasses: {
-        root        : 'pagination',
-        item        : 'pagination-item',
-        link        : 'page-number',
-        selectedItem: 'current',
-        disabledItem: 'disabled-item'
+      if (localWrap) localWrap.style.display = 'none';
+    } else if (modeKey === 'local') {
+      // Clear Algolia state to avoid mismatched results on switch back
+      if (algoliaInstance && algoliaInstance.helper) {
+        algoliaInstance.helper.setQuery('').search();
       }
-    })
-  ]);
+      if (algoliaWrap) algoliaWrap.style.display = 'none';
+      if (localSearchInstance) localSearchInstance.activate();
+    }
+  }
 
-  search.start();
+  // Set initial active tab
+  if (searchModes.length > 1) {
+    $.each('.search-mode-tab', function(tab) {
+      if (tab.dataset.searchMode === activeMode) {
+        tab.classList.add('active');
+      }
+      tab.addEventListener('click', function() {
+        switchMode(tab.dataset.searchMode);
+      });
+    });
+  }
 
+  // Activate default mode
+  if (activeMode === 'local' && localSearchInstance) {
+    localSearchInstance.activate();
+  }
+
+  // ── Open / close handlers (shared) ────────────────────────────────
   // Handle and trigger popup window
   $.each('.search', function(element) {
     element.addEventListener('click', function() {

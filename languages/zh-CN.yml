@@ -87,6 +87,9 @@ search:
   placeholder: 文章搜索
   empty: "关于 「 ${query} 」，什么也没搜到"
   stats: "${time} ms 内找到 ${hits} 条结果"
+  mode:
+    algolia: Algolia
+    local: 本地
 
 cheers:
   um: 嗯..

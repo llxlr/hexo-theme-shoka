@@ -189,7 +189,7 @@ const siteInit = function () {
   visibilityListener()
   themeColorListener()
 
-  algoliaSearch(pjax)
+  searchController(pjax)
 
   window.addEventListener('scroll', scrollHandle)
 

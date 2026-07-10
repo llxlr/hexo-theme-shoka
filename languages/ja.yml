@@ -87,6 +87,9 @@ search:
   placeholder: 検索…
   empty: "「 ${query} 」については何も見つかりませんでした"
   stats: "${time} ms以内に ${hits} 件の結果が見つかりました"
+  mode:
+    algolia: Algolia
+    local: ローカル
 
 cheers:
   um: うーん

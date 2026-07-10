@@ -56,12 +56,22 @@ hexo.extend.generator.register('script', function(locals){
     siteConfig.twikoo = theme.twikoo
   };
 
-  if(config.algolia) {
+  if(config.algolia && config.algolia.enable) {
     siteConfig.search = {
       appID    : config.algolia.appId,
       apiKey   : config.algolia.apiKey,
       indexName: config.algolia.indexName,
       hits     : theme.search.hits
+    }
+  }
+
+  if(config.local_search && config.local_search.enable) {
+    siteConfig.localSearch = {
+      path: config.local_search.path || '/search.json',
+      top_n_per_article: config.local_search.top_n_per_article || 1,
+      unescape: config.local_search.unescape || false,
+      preload: config.local_search.preload || false,
+      per_page: config.local_search.per_page || 10
     }
   }
 
@@ -88,6 +98,10 @@ hexo.extend.generator.register('script', function(locals){
 
   if(theme.typesetting && theme.typesetting.enable) {
     text += fs.readFileSync('themes/shoka/source/js/_app/typesetting.js').toString();
+  }
+
+  if(config.local_search && config.local_search.enable) {
+    text += fs.readFileSync('themes/shoka/source/js/_app/local-search.js').toString();
   }
 
   text = 'var CONFIG = ' + JSON.stringify(siteConfig) + ';' + text;

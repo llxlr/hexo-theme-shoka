@@ -87,6 +87,9 @@ search:
   placeholder: Search for Posts
   empty: "We didn't find any results for the search: ${query}"
   stats: "${hits} results found in ${time} ms"
+  mode:
+    algolia: Algolia
+    local: Local
 
 cheers:
   um: Um..

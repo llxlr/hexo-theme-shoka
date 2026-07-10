@@ -106,7 +106,11 @@
     search : {
       placeholder: "{{ __('search.placeholder') }}",
       empty: "{{ __('search.empty') }}",
-      stats: "{{ __('search.stats') }}"
+      stats: "{{ __('search.stats') }}",
+      mode: {
+        algolia: "{{ __('search.mode.algolia') }}",
+        local: "{{ __('search.mode.local') }}"
+      }
     },
     {%- if theme.widgets.recent_comments or page.comment !== false  %}
     {%- if theme.valine.enable %}valine: {{ page.valine|safedump if page.valine else "true"  }},{%- endif %}
