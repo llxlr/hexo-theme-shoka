@@ -1398,11 +1398,12 @@
   font-size 0.75em
   background-color #f2f6fc
 
+// 原生 tk-tag-green 用 CSS 自定义属性驱动，支持 tagColor 配置
 .tk-tag-green
-  background-color rgba(103,194,58,0.13)
-  border 1px solid rgba(103,194,58,0.50)
+  background-color unquote("color-mix(in srgb, var(--twikoo-master-color, #67c23a) 13%, transparent)")
+  border 1px solid unquote("color-mix(in srgb, var(--twikoo-master-color, #67c23a) 50%, transparent)")
   border-radius 2px
-  color #67c23a
+  color var(--twikoo-master-color, #67c23a)
 
 .tk-tag-yellow
   background-color rgba(230,162,60,0.13)
@@ -1421,6 +1422,40 @@
   border 1px solid rgba(245,108,108,0.50)
   border-radius 2px
   color #f56c6c
+
+// ========================================
+// Commenter Tag Badges（tagMeta / tagMember）
+// tk-tag-green 用于 DB master=true 用户 → Twikoo 原生渲染
+// tk-tag-master 用于 tagMember.master 用户 → JS 注入
+// 两者共用相同的 CSS 自定义属性（由 JS 从 tagColor 配置注入）
+// ========================================
+.tk-tag-master
+  background-color unquote("color-mix(in srgb, var(--twikoo-master-color, #ec8c69) 13%, transparent)")
+  border 1px solid unquote("color-mix(in srgb, var(--twikoo-master-color, #ec8c69) 50%, transparent)")
+  border-radius 2px
+  color var(--twikoo-master-color, #ec8c69)
+  margin-left 0.25em
+
+.tk-tag-visitor
+  background-color unquote("color-mix(in srgb, var(--twikoo-visitor-color, #909399) 13%, transparent)")
+  border 1px solid unquote("color-mix(in srgb, var(--twikoo-visitor-color, #909399) 50%, transparent)")
+  border-radius 2px
+  color var(--twikoo-visitor-color, #909399)
+  margin-left 0.25em
+
+.tk-tag-friend
+  background-color unquote("color-mix(in srgb, var(--twikoo-friend-color, #3e999f) 13%, transparent)")
+  border 1px solid unquote("color-mix(in srgb, var(--twikoo-friend-color, #3e999f) 50%, transparent)")
+  border-radius 2px
+  color var(--twikoo-friend-color, #3e999f)
+  margin-left 0.25em
+
+.tk-tag-investor
+  background-color unquote("color-mix(in srgb, var(--twikoo-investor-color, #ed6ea0) 13%, transparent)")
+  border 1px solid unquote("color-mix(in srgb, var(--twikoo-investor-color, #ed6ea0) 50%, transparent)")
+  border-radius 2px
+  color var(--twikoo-investor-color, #ed6ea0)
+  margin-left 0.25em
 
 // Comment
 .tk-comment

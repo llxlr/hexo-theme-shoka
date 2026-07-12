@@ -248,6 +248,24 @@ twikoo:
   mode: vercel # vercel或tencent
   envId: "" # twikoo环境ID,vercel填地址
   region: "none" #tencent填对应ap地域,vercel随便填
+  tagMeta:
+    visitor: 新朋友
+    master: 主人
+    friend: 小伙伴
+    investor: 金主粑粑
+  tagColor:
+    master: "var(--color-orange)"
+    friend: "var(--color-aqua)"
+    investor: "var(--color-pink)"
+  tagMember:
+    master:
+      # - hash of master@email.com
+      # - hash of master2@email.com
+    friend:
+      # - hash of friend@email.com
+      # - hash of friend2@email.com
+    investor:
+      # - hash of investor1@email.com
 
 # 文章AI摘要是否开启，会自动检索文章色summary字段，若没有则不显示
 ai_summary:

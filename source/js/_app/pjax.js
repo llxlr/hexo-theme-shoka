@@ -57,6 +57,75 @@ const pjaxReload = function () {
   pageScroll(0);
 }
 
+// 从 Gravatar/Cravatar 头像 URL 中提取邮箱 MD5 哈希
+var twikooObserver = null;
+const getAvatarHash = function(img) {
+	if (!img) return null;
+	var src = img.getAttribute('src') || '';
+	var match = src.match(/\/avatar\/([a-f0-9]+)/i);
+	return match ? match[1].toLowerCase() : null;
+};
+
+// 从 Twikoo 配置的 tagColor 注入 CSS 自定义属性，配合 color-mix() 驱动标签配色
+var applyTagColors = function(container, config) {
+	if (!config || !config.tagColor) return;
+	var props = {
+		master: '--twikoo-master-color',
+		visitor: '--twikoo-visitor-color',
+		friend: '--twikoo-friend-color',
+		investor: '--twikoo-investor-color'
+	};
+	for (var type in props) {
+		if (config.tagColor[type]) {
+			container.style.setProperty(props[type], config.tagColor[type]);
+		}
+	}
+};
+
+// 为 Twikoo 评论注入标签徽章
+// - DB master=true 用户由 Twikoo 原生渲染 .tk-tag-green（颜色受 --twikoo-master-color 驱动）
+// - tagMember.master 列表用户（非 DB master）由本函数注入 .tk-tag-master
+// - 两种 master 标签视觉一致（共用同一个 CSS 自定义属性）
+var TAG_COLOR_MAP = { master: 'master', friend: 'friend', investor: 'investor', visitor: 'visitor' };
+const addTwikooTags = function(container, config) {
+	if (!config || !config.tagMember) return;
+	var comments = container.querySelectorAll('.tk-comment:not(.tk-tagged)');
+	comments.forEach(function(comment) {
+		comment.classList.add('tk-tagged');
+		var avatarImg = comment.querySelector('.tk-avatar-img');
+		var hash = getAvatarHash(avatarImg);
+		var tagType = null;
+		if (hash) {
+			var tagMember = config.tagMember;
+			for (var type in tagMember) {
+				if (tagMember.hasOwnProperty(type) && tagMember[type] && tagMember[type].some(function(h) {
+					return h.toLowerCase() === hash;
+				})) {
+					tagType = type;
+					break;
+				}
+			}
+		}
+		if (!tagType) {
+			// 未匹配任何 member 列表 → 默认 visitor
+			// 但若已有 .tk-tag-green（DB master 原生标签），不再追加 visitor
+			if (comment.querySelector('.tk-tag-green')) return;
+			tagType = 'visitor';
+		}
+		if (!config.tagMeta || !config.tagMeta[tagType]) return;
+		// DB master=true 用户已有原生 .tk-tag-green，跳过避免重复标签
+		if (tagType === 'master' && comment.querySelector('.tk-tag-green')) return;
+		var tag = document.createElement('span');
+		var colorClass = TAG_COLOR_MAP[tagType] || tagType;
+		tag.className = 'tk-tag tk-tag-' + colorClass;
+		tag.textContent = config.tagMeta[tagType];
+		var nickLink = comment.querySelector('.tk-nick-link');
+		if (nickLink && nickLink.parentNode) {
+			nickLink.parentNode.insertBefore(tag, nickLink.nextSibling);
+		}
+	});
+};
+
 const siteRefresh = function (reload) {
   LOCAL_HASH = 0
   LOCAL_URL = window.location.href
@@ -97,12 +166,43 @@ const siteRefresh = function (reload) {
       options.includeReply = options.includeReply || false;
       options.pageSize = options.pageSize || 10;
 
+      // 统一 DB master 与 tagMember.master 的主标识文案
+      if (options.tagMeta && options.tagMeta.master) {
+        options.MASTER_TAG = options.tagMeta.master;
+      }
+
       // 先 init 评论框，再异步获取最近评论，避免同步 callback 下内部状态冲突
       window.twikoo.init(options);
+
+      // Twikoo 不支持 onCommentLoaded，用 MutationObserver 监听评论渲染完成后注入标签
+      if (twikooObserver) twikooObserver.disconnect();
+      twikooObserver = new MutationObserver(function(mutations) {
+        var container = document.querySelector('#twikoo');
+        if (!container) return;
+        mutations.forEach(function(mutation) {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1 && node.querySelectorAll) {
+              var comments = node.querySelectorAll('.tk-comment');
+              if (comments.length > 0) {
+                applyTagColors(container, options);
+                addTwikooTags(container, options);
+              }
+            }
+          });
+        });
+      });
+      // 尽早开始观察 body，捕获 Twikoo 渲染的 DOM
+      twikooObserver.observe(document.body, { childList: true, subtree: true });
 
       setTimeout(function(){
         positionInit(1);
         postFancybox('.twikoo');
+        // 兜底：observer 可能漏掉，setTimeout 补一次
+        var container = document.querySelector('#twikoo');
+        if (container) {
+          applyTagColors(container, options);
+          addTwikooTags(container, options);
+        }
       }, 1000);
 
       window.twikoo.getRecentComments({
