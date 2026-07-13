@@ -11,7 +11,7 @@ function postMedia(args, content) {
   switch(args[0]) {
     case 'video':
     case 'audio':
-      return `<div class="media-container"><div class="player" data-type="${args[0]}" data-src='${JSON.stringify(list)}'></div></div>`;
+      return `<div class="media-container"><div class="player" data-type="${args[0]}" data-src='${JSON.stringify(list).replace(/'/g, "&#39;")}'></div></div>`;
       break;
   }
 
