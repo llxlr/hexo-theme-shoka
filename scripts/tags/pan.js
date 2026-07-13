@@ -71,7 +71,7 @@ hexo.extend.tag.register('pan', (args) => {
   let size = util.htmlTag('span', {class: 'pan-desc'}, `<span class="pan-size">${params.size}</span><span>来自：${pan.name}</span>`, false);
   let content_info = util.htmlTag('span', {class: 'pan-content-info'}, pan_logo+title+size, false);
 
-  let info = code ? util.htmlTag('span', {class: 'code-info'}, '提取码：'+code): '';
+  let info = code ? util.htmlTag('label', {class: 'code-info'}, `<input type="checkbox" class="code-toggle" hidden/><span class="code-text">提取码：${code}</span>`, false): '';
   let btn = util.htmlTag('span', {class: 'code-btn'}, code ? '复制提取码跳转': '点击跳转网盘');
   let pan_code = util.htmlTag('span', {class: 'pan-code'+(code ? '': ' pan-no-code')}, info+btn, false);
   let content_code = util.htmlTag('span', {class: 'pan-content-code'}, pan_code, false);
