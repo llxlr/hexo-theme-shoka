@@ -40,10 +40,18 @@ const mediaPlayer = function(t, config) {
         ['y.qq.com.*singer/(\\w+).html', 'tencent', 'artist'],
         ['y.qq.com.*playsquare/(\\w+).html', 'tencent', 'playlist'],
         ['y.qq.com.*playlist/(\\w+).html', 'tencent', 'playlist'],
-        ['xiami.com.*song/(\\w+)', 'xiami', 'song'],
-        ['xiami.com.*album/(\\w+)', 'xiami', 'album'],
-        ['xiami.com.*artist/(\\w+)', 'xiami', 'artist'],
-        ['xiami.com.*collect/(\\w+)', 'xiami', 'playlist'],
+        ['www.kugou.com.*song.*hash=(\\w+)', 'kugou', 'song'],
+        ['www.kugou.com.*album.*id=(\\w+)', 'kugou', 'album'],
+        ['www.kugou.com.*singer.*id=(\\w+)', 'kugou', 'artist'],
+        ['www.kugou.com.*special.*id=(\\w+)', 'kugou', 'playlist'],
+        ['www.kuwo.cn.*yinyue/(\\d+)', 'kuwo', 'song'],
+        ['www.kuwo.cn.*album/(\\d+)', 'kuwo', 'album'],
+        ['www.kuwo.cn.*singer/(\\d+)', 'kuwo', 'artist'],
+        ['www.kuwo.cn.*playlist/(\\d+)', 'kuwo', 'playlist'],
+        ['music.baidu.com.*song/(\\d+)', 'baidu', 'song'],
+        ['music.baidu.com.*album/(\\d+)', 'baidu', 'album'],
+        ['music.baidu.com.*artist/(\\d+)', 'baidu', 'artist'],
+        ['music.baidu.com.*playlist/(\\d+)', 'baidu', 'playlist'],
       ].forEach(function(rule) {
         var patt = new RegExp(rule[0])
         var res = patt.exec(link)
@@ -66,14 +74,25 @@ const mediaPlayer = function(t, config) {
               list.push.apply(list, JSON.parse(playlist));
               resolve(list);
             } else {
-              fetch(CONFIG.meting_api+'?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random())
-                .then(function(response) {
-                  return response.json()
-                }).then(function(json) {
-                  store.set(skey, JSON.stringify(json))
-                  list.push.apply(list, json);
-                  resolve(list);
-                }).catch(function(ex) {})
+              var defaultApi = 'https://api.i-meto.com/meting/api'
+              var isLocal = /localhost|127\.0\.0\.1/.test(window.location.hostname)
+              var primaryApi = isLocal ? defaultApi : CONFIG.meting_api
+              var query = '?server='+meta[0]+'&type='+meta[1]+'&id='+meta[2]+'&r='+ Math.random()
+
+              var tryFetch = function(url, fallback) {
+                fetch(url)
+                  .then(function(response) { return response.json() })
+                  .then(function(json) {
+                    store.set(skey, JSON.stringify(json))
+                    list.push.apply(list, json);
+                    resolve(list);
+                  })
+                  .catch(function(ex) {
+                    if (fallback) tryFetch(fallback)
+                  })
+              }
+
+              tryFetch(primaryApi + query, primaryApi !== defaultApi ? defaultApi + query : null)
             }
           } else {
             list.push(raw);
