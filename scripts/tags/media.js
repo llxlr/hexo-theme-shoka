@@ -8,10 +8,11 @@ function postMedia(args, content) {
     return
   }
   const list = yaml.load(content);
+  var discAttr = (args[1] && args[1].startsWith('disc=')) ? ' data-disc="' + args[1].slice(5) + '"' : ''
   switch(args[0]) {
     case 'video':
     case 'audio':
-      return `<div class="media-container"><div class="player" data-type="${args[0]}" data-src='${JSON.stringify(list).replace(/'/g, "&#39;")}'></div></div>`;
+      return `<div class="media-container"><div class="player" data-type="${args[0]}"${discAttr} data-src='${JSON.stringify(list).replace(/'/g, "&#39;")}'></div></div>`;
       break;
   }
 

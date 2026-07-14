@@ -544,7 +544,10 @@ const mediaPlayer = function(t, config) {
     create: function () {
       var current = playlist.current()
 
-      this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
+      var discImg = t.getAttribute('data-disc')
+      var discStyle = discImg ? ' style="--disc-image: url('+discImg+')"' : ''
+
+      this.el.innerHTML = '<div class="cover"><div class="disc"'+discStyle+'><img src="'+(current.cover)+'" class="blur" /></div></div>'
       + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
       + '<div class="lrc"></div></div>'
 
