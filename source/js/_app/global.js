@@ -329,9 +329,14 @@ const getCDNinfo = function(){
   var cdn = document.getElementById('cdn');
   if(!cdn){return;}
   fetch('/cdn-cgi/trace')
-    .then(function(resp) { return resp.text(); })
+    .then(function(resp) {
+      if (!resp.ok) throw new Error('No Cloudflare CDN')
+      return resp.text()
+    })
     .then(function(res){
-      var area = res.match(/colo=(.*?)\n/)[1];
+      var match = res.match(/colo=(.*?)\n/)
+      if (!match) throw new Error('Invalid trace response')
+      var area = match[1]
       fetch('https://cdn.jsdelivr.net/gh/llxlr/cdn/static/areas.json')
         .then(function(resp){ return resp.json(); })
         .then(function(data){
@@ -345,7 +350,7 @@ const getCDNinfo = function(){
         })
     })
     .catch(function(error){
-      console.error("Error:", error);
-      return;
+      console.warn("CDN info unavailable:", error.message);
+      cdn.style.display = 'none';
     });
 }
