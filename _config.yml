@@ -104,6 +104,9 @@ font:
 # //at.alicdn.com/t/font_1832207_c8i9n1ulxlt.css => 1832207_c8i9n1ulxlt
 iconfont: "1832207_igi8uaupcus"
 
+# Taylor Swift font
+taylor_swift_font: "https://cache.umusic.com/_sites/_halo/zyx/smbd/Juniper-Regular.ttf"
+
 menu:
   home: / || home
   # about: /about/ || user
