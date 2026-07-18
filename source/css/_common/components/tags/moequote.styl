@@ -1,0 +1,135 @@
+.moequote
+  width: fit-content
+
+  blockquote
+    border: 0
+    background-color: transparent
+
+  p
+    font-size: 20px
+    padding: 0
+    white-space: pre-wrap
+
+    &[lang=zh]
+      font-family: "SimHei", sans-serif
+      font-style: normal
+
+    &[lang=ja]
+      font-family: initial
+      font-style: normal
+
+  .body
+    z-index: 1
+    position: relative
+    margin: 0
+    padding: 10px 30px
+    font-family: Georgia, serif
+    font-size: 16px
+    font-style: italic
+    line-height: 140%
+    color: #888
+
+    &::before, &::after
+      z-index: -1
+      position: absolute
+      color: #d2d2d2
+      font-size: 32px
+      font-style: normal
+      font-weight: 700
+
+    &::before
+      content: "\201C"
+      color: #b2b7f2
+      top: 0
+      left: 0
+      line-height: 1
+      font-size: 40px
+      font-family: 'Times New Roman', sans-serif
+      font-weight: bold
+      text-align: left
+
+    &::after
+      content: "\201D"
+      color: #b2b7f2
+      bottom: 0
+      right: 0
+      line-height: 0
+      font-size: 40px
+      font-family: 'Times New Roman', sans-serif
+      font-weight: bold
+      text-align: right
+
+  .credits
+    margin-left: 24px
+    padding-right: 24px
+    color: #8c8c8c
+    font-size: 14px
+
+.moequote-slg
+  color: #4ea1d9
+  position: relative
+  display: inline-block
+  width: "calc(100% - .76rem)"
+  padding: .2rem
+  margin: .64rem
+  font-weight: lighter
+  letter-spacing: .1em
+
+  &.pureColor
+    background: none
+    pointer-events: none
+
+    em
+      background: none
+      -webkit-background-clip: none
+
+  strong
+    color: #74d5ee
+    font-weight: inherit
+
+  em
+    color: #418ae0
+    font-style: normal
+    background-image: linear-gradient(-135deg, #dc8bc3 0, #418ae0 100%)
+    -webkit-text-fill-color: transparent
+    -webkit-background-clip: text
+
+  u
+    color: #dc8bc3
+    text-decoration: none
+
+  &::before, &::after
+    content: ""
+    position: absolute
+    width: .08rem
+    height: .25rem
+    background-repeat: 0
+    background-size: cover
+    background-position: center center
+
+  .anim
+    background-image: linear-gradient(-135deg, #418ae0, #56a0d8, #dc8bc3, #56a0d8, #418ae0, #56a0d8, #dc8bc3, #56a0d8, #418ae0)
+    -webkit-text-fill-color: transparent
+    -webkit-background-clip: text
+    background-size: 200% 100%
+    animation: masked-animation 3s infinite linear
+
+figcaption::before
+  content: "\2014"
+  color: #418ae0
+  padding-right: 5px
+  font-style: normal
+  font-weight: normal
+
+cite
+  font-style: normal
+  font-weight: normal
+  background-image: linear-gradient(-135deg, #dc8bc3 0, #418ae0 100%)
+  -webkit-text-fill-color: transparent
+  -webkit-background-clip: text
+
+@keyframes masked-animation
+  0%
+    background-position: 0 -100%
+  100%
+    background-position: -100% 0
