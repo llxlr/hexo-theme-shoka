@@ -556,6 +556,8 @@ const postBeauty = function () {
       btns: []
     }).player.load(JSON.parse(element.attr('data-src'))).fetch()
   })
+
+  initPan()
 }
 
 const tabFormat = function() {
@@ -640,6 +642,27 @@ const loadComments = function () {
     io.observe(element);
   }
 }
+
+var panInited = false;
+const initPan = function() {
+  if (panInited) return;
+  panInited = true;
+  document.addEventListener('click', function(e) {
+    var pan = e.target.closest('.pan');
+    if (!pan || pan.hasClass('pan-loading')) return;
+    var code = pan.getAttribute('data-code');
+    var link = pan.getAttribute('data-link');
+    if (!code && !link) return;
+    pan.addClass('pan-loading');
+    window.setTimeout(function() {
+      if (code) clipBoard(code, function() {
+        showtip(code + '<br>' + LOCAL.copyright);
+      });
+      window.open(link, '_blank');
+      pan.removeClass('pan-loading');
+    }, 3000);
+  });
+};
 
 const searchController = function(pjax) {
   // Determine available search modes

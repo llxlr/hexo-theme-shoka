@@ -1,58 +1,31 @@
 /* global hexo */
 
 /*
-{% pan <type> <title> <size> [logo] <link> [code] %} 
+{% pan <type> <title> <size> [logo] <link> [code] %}
 */
 
 'use strict';
 
+const fs = require('hexo-fs');
 const path = require('path');
+const yaml = require('js-yaml');
 const util = require('hexo-util');
 const { parseArgs } = require('./utils');
 
 const list = ['type', 'title', 'size', 'logo', 'link', 'code'];
-const panList = {
-  baidu: { name: '百度网盘', image: 'baiduyun.png' },
-  weiyun: { name: '腾讯微云', image: 'weiyun.png' },
-  onedrive: { name: 'OneDrive', image: 'onedrive.png' },
-  139: { name: '和彩云', image: '139.png' },
-  189: { name: '天翼云', image: '189.png' },
-  aliyun: { name: '阿里云盘', image: 'aliyundrive.png' },
-  115: { name: '115网盘', image: '115.png' },
-  jianguoyun: { name: '坚果云', image: 'jianguoyun.png' },
-  360: { name: '360安全云盘', image: '360.png' },
-  123: { name: '123云盘', image: '123.png' },
-  qiniu: { name: '七牛云', image: 'qiniu.png' },
-  github: { name: 'GitHub', image: 'github.png' },
-  lanzou: { name: '蓝奏云', image: 'lanzou.png' },
-  doge: { name: '多吉云', image: 'dogecloud.png' },
-  custom: { name: '自定义', image: 'download.png' },
-};
 
-hexo.extend.injector.register('body_end', `<script data-pjax>
-let pan = document.getElementsByClassName('pan');
-for (let i = 0; i < pan.length; i++) {
-  let code = pan[i].getAttribute('data-code');
-  let link = pan[i].getAttribute('data-link');
-  if (!code && !link) continue;
-  pan[i].addEventListener('click', function(){
-    window.setTimeout(function(){
-      if (code) copyCode(code, link);
-      window.open(link, '_blank');
-    }, 3000);
-  });
+let panListCache = null;
+let panListLoaded = false;
+
+function loadPanList(sourceDir) {
+  if (panListLoaded) return panListCache;
+  panListLoaded = true;
+  const configPath = path.join(sourceDir, '_data/pan.yml');
+  if (fs.existsSync(configPath)) {
+    panListCache = yaml.load(fs.readFileSync(configPath));
+  }
+  return panListCache;
 }
-
-function copyCode(code) {
-  let input = document.createElement('input');
-  input.value = code;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand('Copy');
-  input.className = 'input';
-  input.style.display = 'none';
-};
-</script>`.replace(/  |\r|\n/g, ''));
 
 hexo.extend.tag.register('pan', (args) => {
   if (!args[0]) return;
@@ -60,6 +33,7 @@ hexo.extend.tag.register('pan', (args) => {
   const params = parseArgs(args, list);
   const theme = hexo.theme.config;
 
+  let panList = loadPanList(hexo.source_dir);
   let pan = panList[params.type];
   if (!pan) return;
 
