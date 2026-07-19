@@ -223,7 +223,7 @@ const headertopdown = function () {
 }
 
 const chooseLive2dHandle = function () {
-  var live2d = document.getElementById("live2d-widget");
+  var live2d = document.querySelector("#live2d, #live2d-widget, #waifu");
   if(live2d.style.visibility == "hidden"){
     live2d.style.visibility = "visible";
   }else{
