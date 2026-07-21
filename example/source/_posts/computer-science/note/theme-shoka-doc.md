@@ -17,7 +17,7 @@ valine:
 - [hexo-theme-shoka](https://github.com/amehime/hexo-theme-shoka) ：本博客自用的主题
 - [hexo-renderer-multi-markdown-it](https://github.com/amehime/hexo-renderer-multi-markdown-it)：配套的markdown渲染器
 
-已经支持hexo 5。
+已经支持hexo 8。
 :::
 
 :::info
@@ -38,7 +38,7 @@ iconfont的添加申请，我看到留言后会尽快加上，希望各位小伙
 :::
 
 :::primary
-[**:rocket:快速开始**](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/)
+[**:rocket:快速开始**](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/) - [:sparkles:魔改功能](/computer-science/note/theme-shoka-doc/custom/)
 :::
 
 # 设计缘由

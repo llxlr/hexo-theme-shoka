@@ -13,7 +13,7 @@ audio:
 ---
 
 :::primary
-[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [**:pushpin:基本配置**](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/)
+[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [**:pushpin:基本配置**](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/) - [**:sparkles:魔改功能**](/computer-science/note/theme-shoka-doc/custom/)
 :::
 
 
@@ -124,6 +124,8 @@ font:
 此功能基本参考NexT。
 加粗标题的字体总是使用`Noto Serif`，为了正确友好的显示日文中的汉字，会先后加载`headings`和`title`的字体设置。
 
+> llxlr 魔改版已将 Google Fonts CDN 从 `fonts.googleapis.com` 切换为 `fonts.geekzu.com`（国内镜像），提升中文字体加载速度。
+
 # `iconfont`图标
 主题没有直接使用Font Awesome，是因为用不到那么多icon感觉非常浪费，因此在Iconfont上重新建立了一个项目。
 `font-family`设为`ic`，所有字体样式前缀为`i-`，具体参见`<root>/themes/shoka/source/css/_iconfont.styl`。
@@ -226,7 +228,36 @@ post:
 ```
 
 # 文章评论
-[如何获取LeanCloud的appId和appKey](https://valine.js.org/quickstart.html)。
+
+llxlr 魔改版支持 **Twikoo** 和 **Valine** 双评论系统，通过 `twikoo.enable` 开关切换。
+
+## Twikoo（推荐）
+
+自部署评论系统，支持邮件通知、反垃圾、管理面板。详见 [Shoka 主题添加 Twikoo 评论系统](/computer-science/hexo/shoka/twikoo/)。
+
+```yml
+twikoo:
+  enable: true              # 启用 Twikoo（设为 false 则回退 Valine）
+  mode: vercel               # 部署模式：vercel 或 tencent
+  envId: https://your-domain.com/twikoo/backend
+  region: "none"
+  tagMeta:                   # 评论者身份标签（与 Valine 共用字段格式）
+    visitor: 新朋友
+    master: 主人
+    friend: 小伙伴
+    investor: 金主粑粑
+  tagColor:
+    master: "var(--color-orange)"
+    friend: "var(--color-aqua)"
+    investor: "var(--color-pink)"
+  tagMember:
+    master:
+      # - hash of master@email.com
+```
+
+## Valine（回退方案）
+
+当 `twikoo.enable: false` 时生效。[如何获取LeanCloud的appId和appKey](https://valine.js.org/quickstart.html)。
 
 ```yml
 valine:
@@ -238,7 +269,7 @@ valine:
   lang: zh-CN
   visitor: true # 文章访问量统计
   NoRecordIP: false # 不记录IP
-  serverURLs: # When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)
+  serverURLs: # When the custom domain name is enabled, fill it in here
   powerMode: true # 默认打开评论框输入特效
   tagMeta:
     visitor: 新朋友
@@ -252,10 +283,8 @@ valine:
   tagMember:
     master:
       # - hash of master@email.com
-      # - hash of master2@email.com
     friend:
       # - hash of friend@email.com
-      # - hash of friend2@email.com
     investor:
       # - hash of investor1@email.com
 ```
@@ -279,7 +308,7 @@ tag标签显示在评论者名字的后面，默认是`tagMeta.visitor`对应的
       # - hash of waifu@email.com
 ```
 
-在文章Front Matter中也可以配置上述参数，访问该文章页面时，将覆盖全局配置。
+在文章Front Matter中也可以配置上述参数（Valine 和 Twikoo 均支持），访问该文章页面时，将覆盖全局配置。
 尤其可以用来配置一个特殊的placeholder。
 
 ```yml
@@ -288,7 +317,7 @@ valine:
 ---
 ```
 
-评论通知与管理工具建议使用这个[Valine-Admin](https://github.com/DesertsP/Valine-Admin)。
+对于 Valine，评论通知与管理工具建议使用这个[Valine-Admin](https://github.com/DesertsP/Valine-Admin)。
 注意`SITE_URL`需要以`/`结尾。
 
 如果某一篇文章需要关闭评论功能，则在文章Front Matter中配置：
@@ -390,6 +419,58 @@ audio: false
 image_server: "https://acg.xydwz.cn/api/api.php"
 ```
 
+# Meting API
+
+llxlr 魔改版将音乐播放器的 Meting API 地址改为可配置项。
+
+```yml
+meting_api: https://api.i-meto.com/meting/api
+```
+
+# 魔改功能快速参考
+
+以下为 llxlr 魔改版新增的配置项简要参考，详细用法见 [:sparkles:魔改功能](custom/)。
+
+```yml
+# AI 摘要（需配合 hexo-ai-summary-liushen）
+ai_summary:
+  enable: true
+  title: AI 摘要
+
+# 文章时效性检查
+isOutdated:
+  enable: true
+  days: 30
+
+# 不蒜子访问统计
+footer:
+  busuanzi: true
+
+# ICP / 公安备案
+footer:
+  beian:
+    icp:
+      enable: true
+      text: 苏ICP备XXXXXXXX号-X
+      link: https://beian.miit.gov.cn/
+
+# 自定义版权
+creative_commons:
+  license: by-nc-sa
+  language: deed.zh
+
+# 本地搜索（博客 _config.yml）
+local_search:
+  enable: true
+  per_page: 10
+
+# 表格分页 + 图表自动编号
+typesetting:
+  enable: true
+  table:
+    pageSize: 5
+```
+
 # 加载第三方组件
 ```yml
 vendors:
@@ -408,9 +489,12 @@ vendors:
 `lazyload` | 图片懒加载|全局
 `quicklink` | 链接资源预加载|全局
 `fetch` | 获取播放列表|全局
+`busuanzi` | 不蒜子访问量统计|全局
+`heti` | 赫蹏中文排版优化|按需
 `katex` `copy_tex`|数学公式显示及复制|按需
 `fancybox` | 图片放大显示及排列|按需
-`valine` | 基于LeanCloud的评论系统及文章阅读次数统计|按需
+`twikoo` | 基于Twikoo的评论系统及文章阅读次数统计|按需
+`valine` | 基于LeanCloud的评论系统及文章阅读次数统计（回退方案）|按需
 `chart` | 图表显示|按需
 
 以上文件加载全部基于jsDelivr，并对全局加载的组件进行了文件合并。

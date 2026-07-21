@@ -11,7 +11,7 @@ valine:
 ---
 
 :::primary
-[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [**:rainbow:界面显示**](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/)
+[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [**:rainbow:界面显示**](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/) - [**:sparkles:魔改功能**](/computer-science/note/theme-shoka-doc/custom/)
 :::
 
 
@@ -184,6 +184,22 @@ sticky: true
 如果想要修改主题的`<root>/themes/shoka/source/images/`目录内的某张图片，请在`<root>/source/_data/`目录新建目录`images`，并在这个文件夹中添加++同名++文件，部署时将自动覆盖主题内的默认图片。
 
 可以用此方法自定义头像、打赏二维码等图片，并且避免覆盖更新主题时遗失自定义文件。
+
+# 彩色图标（SVG Sprite）
+
+llxlr 魔改版已将图标加载方式从传统字体图标（`.css`）切换为 SVG Sprite（`.js`），支持彩色图标渲染。
+
+```yml
+# _config.shoka.yml
+# 格式从 font_XXXXXX_c8i9n1ulxlt.css 改为 t/c/font_XXXXXX_igi8uaupcus.js
+iconfont: "1832207_igi8uaupcus"
+```
+
+> Iconfont 项目设置需将 `FontClass/Symbol 前缀` 设为 `i-`。自定义图标放在 `<root>/source/_data/iconfont.styl` 中。
+
+# 脚注样式
+
+脚注使用特定字体增强可读性，支持交叉引用（`fn-back`）样式。脚注在表格中的引用也已适配（通过 `crossref.js` 过滤器处理后迁移到表尾）。
 
 # 自定义语言包
 本功能参考NexT，主要可以用来定义菜单等处显示的文字，且可以方便主题无脑覆盖升级。

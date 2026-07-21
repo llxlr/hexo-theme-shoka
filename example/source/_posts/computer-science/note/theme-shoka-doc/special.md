@@ -14,7 +14,7 @@ valine:
 ---
 
 :::primary
-[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [**:unicorn:特殊功能**](/computer-science/note/theme-shoka-doc/special/)
+[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [:love_letter:依赖插件](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [**:unicorn:特殊功能**](/computer-science/note/theme-shoka-doc/special/) - [**:sparkles:魔改功能**](/computer-science/note/theme-shoka-doc/custom/)
 :::
 
 :::info
@@ -814,3 +814,5 @@ sequenceDiagram
         end
     end
 ```
+
+> llxlr 魔改版已将 KaTeX 升级至 **0.17.0**，使用 `pnpm-workspace.yaml` 的 `overrides` 声明覆盖 `@llxlr/hexo-mdit` 内置的 0.12.0。KaTeX CDN URL 也已同步更新。

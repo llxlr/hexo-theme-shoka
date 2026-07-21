@@ -11,44 +11,58 @@ valine:
 ---
 
 :::primary
-[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [**:love_letter:依赖插件**](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/)
+[:rocket:快速开始](/computer-science/note/theme-shoka-doc/) - [**:love_letter:依赖插件**](/computer-science/note/theme-shoka-doc/dependents/) - [:pushpin:基本配置](/computer-science/note/theme-shoka-doc/config/) - [:rainbow:界面显示](/computer-science/note/theme-shoka-doc/display/) - [:unicorn:特殊功能](/computer-science/note/theme-shoka-doc/special/) - [**:sparkles:魔改功能**](/computer-science/note/theme-shoka-doc/custom/)
 :::
 
 :::warning
-请务必将hexo-renderer-multi-markdown-it升级到最新版，目前为 0.1.5
+llxlr 魔改版已从 `hexo-renderer-multi-markdown-it` 迁移至自 fork 的 `@llxlr/hexo-mdit`，当前版本 0.1.5。请使用 `@llxlr/hexo-mdit` 替代原版渲染器。
 :::
 
-Theme Shoka依赖以下Hexo插件
+Theme Shoka 依赖以下 Hexo 插件
 
 插件名称|npm地址|功能|依赖程度
 --|--|--|--
-hexo-renderer-multi-markdown-it|[链接](https://www.npmjs.com/package/hexo-renderer-multi-markdown-it)|md文件渲染器，压缩css/js/html | 必需
+@llxlr/hexo-mdit|[链接](https://github.com/llxlr/hexo-mdit)|md文件渲染器，压缩css/js/html，含多项增强 | 必需
 hexo-autoprefixer|[链接](https://www.npmjs.com/package/hexo-autoprefixer)|给生成的css文件们添加浏览器前缀 | 必需
-hexo-algoliasearch|[链接](https://www.npmjs.com/package/hexo-algoliasearch)|站内搜索功能 | 搜索按钮失灵
+hexo-algoliasearch|[链接](https://www.npmjs.com/package/hexo-algoliasearch)|站内搜索功能（Algolia 模式） | 搜索按钮失灵
 hexo-symbols-count-time|[链接](https://www.npmjs.com/package/hexo-symbols-count-time)|文章或站点字数及阅读时间统计 | 统计没有
 hexo-feed|[链接](https://www.npmjs.com/package/hexo-feed)|生成Feed文件| Feed文件没有
 
-> 没有正确安装以上插件的话，本主题会报错or无法正确显示or部分功能失效。
-> `hexo-renderer-multi-markdown-it`请注意升级到最新版
+**llxlr 魔改版新增的可选依赖**：
+
+插件名称|npm地址|功能|依赖程度
+--|--|--|--
+hexo-ai-summary-liushen|[链接](https://www.npmjs.com/package/hexo-ai-summary-liushen)|通过 DeepSeek R1 / SiliconFlow API 生成 AI 文章摘要 | 可选（AI 摘要功能需要）
+hexo-deployer-wrangler|[链接](https://github.com/llxlr/hexo-deployer-wrangler)|通过 Wrangler CLI 部署到 Cloudflare Pages | 可选（Cloudflare 部署需要）
+hexo-shoka-swiper|[链接](https://github.com/llxlr/hexo-shoka-swiper)|Swiper 轮播图/卡片展示插件 | 可选（轮播图功能需要）
+hexo-blog-encrypt|[链接](https://www.npmjs.com/package/hexo-blog-encrypt)|文章密码保护（AES-GCM 加密） | 可选（加密文章需要）
+
+> 没有正确安装以上必需插件的话，本主题会报错or无法正确显示or部分功能失效。
 
 安装完以上插件后，修改站点配置文件，加入相关配置。
 
-# multi-markdown-it安装与配置
+# @llxlr/hexo-mdit 安装与配置
+
+llxlr 魔改版已从 `hexo-renderer-multi-markdown-it` 迁移至 `@llxlr/hexo-mdit`。相比原版，新增了 `markdown-it-pangu`（中英文空格）、`markdown-it-chart`（Frappe Charts 图表）、`markdown-it-graphviz`（Graphviz 流程图）、`markdown-it-excerpt`（摘要提取）、`markdown-it-images`（图片懒加载增强）等插件，并修复了 furigana 贪心匹配、attrs colspan 计算等多个上游 bug。
 
 ## 安装
 
-1. 安装前，记得务必卸载掉默认的`hexo-renderer-marked`，以及别的markdown文件渲染器。
+1. 安装前，记得务必卸载掉默认的`hexo-renderer-marked`，以及别的markdown文件渲染器（包括原版 `hexo-renderer-multi-markdown-it`）。
     ```bash
     npm un hexo-renderer-marked --save
-    # 或者
+    # 如果之前安装过原版
+    npm un hexo-renderer-multi-markdown-it --save
+    # 或者用 yarn
     yarn remove hexo-renderer-marked
     ```
 
 2. 安装
     ```bash
-    npm i hexo-renderer-multi-markdown-it --save
+    npm i @llxlr/hexo-mdit --save
     # 或者
-    yarn add hexo-renderer-multi-markdown-it
+    yarn add @llxlr/hexo-mdit
+    # 或者
+    pnpm add @llxlr/hexo-mdit
     ```
 
 3. 如果安装缓慢，或者失败
@@ -58,9 +72,9 @@ hexo-feed|[链接](https://www.npmjs.com/package/hexo-feed)|生成Feed文件| Fe
     ```
     因为有一步需要下载puppeteer里的Chromium内核，基于天朝内部网络现状，这一步能不能成功要靠科学和运气，所以为了避免安装失败，需要加上`--ignore-scripts`跳过Chromium内核的下载。
     ```bash
-    npm i hexo-renderer-multi-markdown-it --save --ignore-scripts
+    npm i @llxlr/hexo-mdit --save --ignore-scripts
     # 或者
-    yarn add hexo-renderer-multi-markdown-it --ignore-scripts
+    yarn add @llxlr/hexo-mdit --ignore-scripts
     ```
     puppeteer主要是用来渲染mermaid流程图，只要文章中不使用mermaid就没有任何问题，如果要使用mermaid建议还是想办法完全安装。
 
