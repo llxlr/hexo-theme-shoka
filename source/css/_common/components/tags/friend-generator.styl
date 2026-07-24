@@ -1,0 +1,291 @@
+#friend-generator
+  margin: 2rem 0
+  font-size: 14px
+  --fg-border: #e0e0e0
+  --fg-bg: #fafafa
+  --fg-focus: #ffc0cb
+  --fg-focus-ring: rgba(255, 192, 203, .25)
+
+  [data-theme="dark"] &
+    --fg-border: #3a3a3a
+    --fg-bg: #1e1e1e
+
+  /* 左右两栏 */
+  .fg-grid
+    display: grid
+    grid-template-columns: 1fr 1fr
+    gap: 1.5rem
+    align-items: stretch
+
+  @media (max-width: 700px)
+    .fg-grid
+      grid-template-columns: 1fr
+
+  .fg-form
+    display: flex
+    flex-direction: column
+    gap: .8rem
+
+  .fg-row
+    display: flex
+    gap: .8rem
+
+  @media (max-width: 600px)
+    .fg-row
+      flex-direction: column
+
+  .fg-field
+    flex: 1
+    min-width: 0
+
+    label
+      display: block
+      margin-bottom: .25rem
+      font-size: .75rem
+      font-weight: 700
+      text-transform: uppercase
+      letter-spacing: .05em
+      color: #888
+      user-select: none
+      -webkit-user-select: none
+
+    input, textarea
+      width: 100%
+      padding: .5rem .75rem
+      border: 1.5px solid var(--fg-border)
+      border-radius: 8px
+      background: var(--grey-3, #eee)
+      color: inherit
+      font-size: .875rem
+      font-family: inherit
+      transition: border-color .2s, box-shadow .2s
+      box-sizing: border-box
+      outline: none
+
+    textarea
+      resize: vertical
+      min-height: 2.8rem
+
+    input:focus, textarea:focus
+      border-color: var(--fg-focus)
+      box-shadow: 0 0 0 3px var(--fg-focus-ring)
+
+  .fg-color-group
+    display: flex
+    align-items: center
+    gap: .5rem
+
+  .fg-color-picker-wrap
+    position: relative
+    width: 36px
+    height: 36px
+    border-radius: 8px
+    overflow: hidden
+    border: 1.5px solid var(--fg-border)
+    flex-shrink: 0
+
+    input[type="color"]
+      position: absolute
+      top: -50%
+      left: -50%
+      width: 200%
+      height: 200%
+      padding: 0
+      border: none
+      cursor: pointer
+      background: none
+
+      &:focus
+        box-shadow: none
+
+  #fg-color-text
+    flex: 1
+    min-width: 0
+
+  .fg-preview
+    display: flex
+    flex-direction: column
+    border-radius: 10px
+    overflow: hidden
+    border: 1.5px solid var(--fg-border)
+
+  .fg-preview-header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: .4rem .75rem
+    background: var(--grey-3, #eee)
+    border-bottom: 1px solid var(--fg-border)
+    font-weight: 700
+    font-size: .85rem
+    user-select: none
+    -webkit-user-select: none
+
+    .fg-preview-btns
+      display: flex
+      gap: .4rem
+
+    button
+      padding: .25rem .6rem
+      border: 1.5px dashed var(--fg-border)
+      border-radius: 6px
+      background: transparent
+      color: inherit
+      font-size: .8rem
+      font-weight: 600
+      cursor: pointer
+      transition: all .2s
+
+      &:hover
+        border-style: solid
+        border-color: var(--fg-focus)
+        color: var(--fg-focus)
+
+      &.copied, &.pasted
+        border-style: solid
+        border-color: #4caf50
+        color: #4caf50
+
+  /* —— 代码块：模拟 shoka highlight + PrismJS 配色 —— */
+  .fg-highlight
+    position: relative
+    overflow: hidden
+    flex: 1
+    display: flex
+    flex-direction: column
+    background: var(--grey-2, #f7f7f7)
+    color: var(--grey-7, #666)
+    line-height: 1.6
+
+    [data-theme="dark"] &
+      --fg-code-bg: #1e1e1e
+      background: #1e1e1e
+      color: #ccc
+
+    /* macOS 三色点 */
+    &::before
+      content: " "
+      position: absolute
+      z-index: 1
+      border-radius: 50%
+      background: #fc625d
+      width: .75rem
+      height: .75rem
+      left: .75rem
+      top: .8125rem
+      box-shadow: 1.25rem 0 #fdbc40, 2.5rem 0 #35cd4b
+
+  .fg-figcaption
+    position: relative
+    color: var(--grey-4, #999)
+    display: flex
+    align-items: center
+    font-size: .75rem
+    font-weight: 700
+    padding: 0 8rem 0 5rem
+    min-height: 2.5rem
+    background: var(--grey-3, #eee)
+    margin-bottom: 0
+    user-select: none
+    -webkit-user-select: none
+
+    [data-theme="dark"] &
+      background: #2a2a2a
+      color: #888
+
+  .fg-code
+    margin: 0
+    padding: .625rem .9375rem
+    font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", Consolas, monospace
+    font-size: .8rem
+    line-height: 1.5
+    white-space: pre-wrap
+    overflow-x: auto
+
+    code
+      font-family: inherit
+      font-size: inherit
+      background: transparent
+      color: inherit
+      white-space: pre-wrap
+
+    /* PrismJS 配色 */
+    .token
+      &.keyword, &.tag
+        color: var(--color-purple, #c678dd)
+      &.string, &.value
+        color: var(--color-green, #98c379)
+      &.comment, &.punctuation
+        color: var(--grey-5, #999)
+      &.function, &.variable
+        color: var(--color-red, #e06c75)
+      &.number
+        color: var(--color-orange, #d19a66)
+      &.class-name
+        color: var(--color-blue, #61afef)
+      &.attr-name
+        color: var(--color-yellow, #e5c07b)
+
+  /* 友链卡片预览 */
+  .fg-card-preview
+    display: flex
+    align-items: center
+    gap: .75rem
+    margin: .75rem
+    padding: .75rem
+    border-radius: .625rem
+    border: 1px solid var(--fg-border)
+    the-transition()
+    --card-color: #ffc0cb
+
+    .fg-card-thumb
+      display: block
+      width: 3rem
+      height: 3rem
+      border-radius: .625rem
+      background-color: var(--grey-1, #eee)
+      flex-shrink: 0
+      border: none
+      overflow: hidden
+      the-transition()
+
+      img
+        display: block
+        width: 100%
+        height: 100%
+        object-fit: cover
+        border: none
+
+    .fg-card-info
+      min-width: 0
+
+    .fg-card-title
+      display: block
+      font-weight: 700
+      font-size: .85rem
+      color: var(--card-color)
+      border: none
+      the-transition()
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    .fg-card-desc
+      display: block
+      font-size: .75rem
+      color: #888
+      margin-top: .15rem
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+    &:hover
+      background-color: var(--card-color)
+      border-color: var(--card-color)
+
+      .fg-card-thumb
+        background-color: var(--card-color)
+
+      .fg-card-title
+        color: var(--grey-0, #fff)
+
