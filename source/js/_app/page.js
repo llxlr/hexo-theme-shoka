@@ -246,7 +246,7 @@ const postBeauty = function () {
         f90: 'fortran'
       };
       var cfg = runnerLangs[map[lc] || lc];
-      return !cfg || cfg.enable !== false;
+      return cfg && cfg.enable !== false;
     };
     if (forcedRunnable || (lang && langEnabled(lang))) {
       var status = document.createElement('div');
