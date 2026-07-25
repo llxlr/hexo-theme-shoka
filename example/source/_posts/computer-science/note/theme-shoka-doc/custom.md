@@ -139,11 +139,65 @@ ai_summary:
 
 ## 浏览器内运行代码
 
-在代码块右上角添加 `▶ Run` 按钮，支持 JavaScript、Silq、Python、Lua 四种语言在浏览器内直接运行。
+在代码块右上角添加 `▶ Run` 按钮，支持 JavaScript、Python、Lua、Silq、R、Fortran 六种语言在浏览器内直接运行。
 
-**依赖**：PrismJS toolbar 插件、Silq WASM、Pyodide、Wasmoon
+**依赖**：PrismJS toolbar 插件，各语言对应 WASM/CDN 运行时。
 
-**配置**：无需额外配置。在代码块信息中加上 `runnable:true` 参数：
+### 配置
+
+主题 `_config.yml` 中通过 `runner` 节统一管理：
+
+```yml
+runner:
+  enable: true
+  languages:
+    javascript:
+      enable: true
+    python:
+      enable: true
+      cdn: "https://cdn.jsdelivr.net/pyodide/v314.0.0/full/pyodide.js"
+      packages:
+        - numpy
+        - pandas
+        - scipy
+        - sympy
+        - matplotlib
+        - requests
+        - beautifulsoup4
+        - lxml
+        - scikit-learn
+        - biopython
+      micropip_packages:
+        - "/dist/simpleaudio-1.0.4-cp314-cp314-emscripten_5_0_3_wasm32.whl"
+    r:
+      enable: false
+      cdn: "https://webr.r-wasm.org/latest/webr.mjs"
+    lua:
+      enable: false
+      cdn: "https://cdn.jsdelivr.net/npm/wasmoon@1.16.0/dist/index.js"
+    silq:
+      enable: false
+      cdn: "https://cdn.jsdelivr.net/npm/@llxlr/silq/silq.js"
+    fortran:
+      enable: false
+      cdn: "https://dev.lfortran.org/lfortran.js"
+      wasm_cdn: "https://dev.lfortran.org/"
+```
+
+| 字段 | 说明 |
+|------|------|
+| `runner.enable` | 总开关，`false` 时完全不加载 runner 脚本 |
+| `runner.preload_grace_ms` | 页面加载后延迟多少毫秒开始后台预加载 WASM（默认 `5000`） |
+| `runner.preload_gap_ms` | 多个运行时预加载之间的间隔毫秒（默认 `3000`） |
+| `languages.<lang>.enable` | 单个语言的运行时开关，关闭后代码块不显示 Run 按钮 |
+| `languages.<lang>.cdn` | 覆盖该语言运行时的 CDN 地址（缺失时使用内置默认值） |
+| `languages.python.packages` | Pyodide 预装的 Python 包列表 |
+| `languages.python.micropip_packages` | 通过 micropip 额外安装的 `.whl` 包 |
+| `languages.fortran.wasm_cdn` | LFortran WASM 文件的基础路径 |
+
+### 单块强制启用
+
+在代码块信息中加上 `runnable:true` 参数，即使该语言未在 `languages` 中启用也会显示 Run 按钮：
 
 ~~~raw
 ```javascript runnable:true
@@ -151,35 +205,43 @@ console.log("Hello Shoka!");
 ```
 ~~~
 
-也可以在 `_config.shoka.yml` 中配置全局白名单：
+### Front-matter 按页面覆盖
 
 ```yml
-runnable:
-  - javascript
-  - python
+# 整页禁用所有运行按钮
+runner: false
+
+# 按语言覆盖（本页关闭 Python，开启 R）
+runner:
+  languages:
+    python:
+      enable: false
+    r:
+      enable: true
 ```
 
-**核心文件**：
+### 核心文件
 
 | 文件 | 作用 |
 |------|------|
-| `scripts/injectors/runner.js` | 注入运行按钮样式 + 客户端运行逻辑 |
-| `source/assets/js/runner.js` | 多语言运行时引擎（JS Worker、Silq WASM、Pyodide、Lua） |
+| `themes/shoka/source/js/runner.js` | 多语言运行时引擎（JS Worker、Pyodide、WebR、Wasmoon、Silq WASM、LFortran） |
 | `themes/shoka/source/js/_app/page.js` | `runnerBtn` 在 `.operation` 工具栏渲染运行按钮 |
 | `node_modules/@llxlr/hexo-mdit/lib/renderer/markdown-it-prism/index.js` | 解析 `runnable:true` 参数，设置 `data-runnable` 属性 |
 
-**运行机制**：
+### 运行时
 
 | 语言 | 运行时 | 说明 |
 |------|--------|------|
-| JavaScript | `new Function()` + console 劫持 | 捕获 stdout 输出 |
-| Silq | WASM (`run_silq` / `run_silq_dump`) | 量子计算模拟 |
+| JavaScript | Web Worker 沙箱 | 独立线程执行，可真正中断 |
 | Python | Pyodide | 含 numpy、pandas、scipy、matplotlib 等科学计算栈 |
+| R | WebR | 支持图形输出 |
 | Lua | Wasmoon | WASM 编译的 Lua 5.4 |
+| Silq | WASM | 量子计算模拟 |
+| Fortran | LFortran | WASM 编译执行 |
 
-- 使用事件委托兼容 Pjax，全局仅注册一次监听器
-- 运行中图标切换为暂停图标，`running` 标志防重复点击
-- Python 支持 matplotlib 图表输出和动画
+- Python 支持 matplotlib 图表输出和 `to_jshtml()` 动画
+- 页面含对应语言代码块时，后台自动预加载 WASM 运行时
+- 运行中图标切换为暂停，可随时中断
 
 ## 命令行提示符
 

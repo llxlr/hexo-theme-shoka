@@ -221,8 +221,34 @@ const postBeauty = function () {
     var runnerBtn = element.child('.runner-btn');
     var lang = caption && caption.attr('data-lang');
     var forcedRunnable = caption && caption.attr('data-runnable') === 'true';
-    var runnable = (LOCAL.runnable || CONFIG.runnable || []).map(function (s) { return String(s).toLowerCase(); });
-    if (forcedRunnable || (lang && runnable.includes(lang.toLowerCase()))) {
+    // front-matter runner: false → 整页禁用
+    if (LOCAL.runner === false) { runnerBtn.remove(); return; }
+    // 合并全局配置 + 页面 front-matter 覆盖
+    var cfgLangs = (CONFIG.runner && CONFIG.runner.languages) || {};
+    var localLangs = (LOCAL.runner && LOCAL.runner.languages) || {};
+    var runnerLangs = {};
+    for (var k in cfgLangs) { runnerLangs[k] = cfgLangs[k]; }
+    for (var k in localLangs) { runnerLangs[k] = localLangs[k]; }
+    var langEnabled = function (name) {
+      var lc = (name || '').toLowerCase();
+      // 映射语言别名到配置 key（runner.js 中 langCfg 的映射表保持一致）
+      var map = {
+        javascript: 'javascript',
+        js: 'javascript',
+        python: 'python',
+        py: 'python',
+        r: 'r',
+        rscript: 'r',
+        lua: 'lua',
+        silq: 'silq',
+        slq: 'silq',
+        fortran: 'fortran',
+        f90: 'fortran'
+      };
+      var cfg = runnerLangs[map[lc] || lc];
+      return !cfg || cfg.enable !== false;
+    };
+    if (forcedRunnable || (lang && langEnabled(lang))) {
       var status = document.createElement('div');
       status.id = 'runnerStatus';
       status.className = 'code-runner-status';

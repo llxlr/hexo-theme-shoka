@@ -79,7 +79,7 @@ hexo.extend.generator.register('script', function(locals){
     siteConfig.audio = theme.audio
   }
   siteConfig.meting_api = theme.meting_api || 'https://api.i-meto.com/meting/api';
-  siteConfig.runnable = theme.runnable || [];
+  siteConfig.runner = theme.runner || {};
 
   var text = '';
 

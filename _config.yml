@@ -347,6 +347,32 @@ baidu_site_verification:
 baidu_push: false
 
 
+# Code Runner — in-browser code execution via WASM runtimes
+runner:
+  enable: false
+  preload_grace_ms: 5000
+  preload_gap_ms: 3000
+  languages:
+    javascript:
+      enable: true
+    python:
+      enable: true
+      cdn: https://cdn.jsdelivr.net/pyodide/v314.0.0/full/pyodide.js
+      packages:
+      micropip_packages:
+    r:
+      enable: false
+      cdn: https://webr.r-wasm.org/latest/webr.mjs
+    lua:
+      enable: false
+      cdn: https://cdn.jsdelivr.net/npm/wasmoon@1.16.0/dist/index.js
+    silq:
+      enable: false
+      cdn: https://cdn.jsdelivr.net/npm/@llxlr/silq/silq.js
+    fortran:
+      enable: false
+      cdn: https://dev.lfortran.org/lfortran.js
+
 #! ---------------------------------------------------------------
 #! DO NOT EDIT THE FOLLOWING `vendors` SETTINGS
 #! UNLESS YOU KNOW WHAT YOU ARE DOING

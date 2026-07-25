@@ -149,7 +149,7 @@
     template: '{{ __("outime.template") }}',
     {%- endif %}
     {%- if page.typesetting %}typesetting: {{ page.typesetting|safedump }},{%- endif %}
-    {%- if page.runnable %}runnable: {{ page.runnable|safedump }},{%- endif %}
+    {%- if page.runner %}runner: {{ page.runner|safedump }},{%- endif %}
     label: {
       table: "{{ __('typesetting.table') }}",
       figure: "{{ __('typesetting.figure') }}"
@@ -172,6 +172,10 @@
 {{ _vendor_js() }}
 
 {{ _js('app.js')}}
+
+{%- if theme.runner.enable %}
+{{ _js('runner.js') }}
+{%- endif %}
 
 {{ partial('_partials/third-party/baidu-analytics.njk', {}, {cache: true}) }}
 
