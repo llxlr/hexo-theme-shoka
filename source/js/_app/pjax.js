@@ -154,6 +154,7 @@ const siteRefresh = function (reload) {
     }, window.MiniValine);
   }
   if(CONFIG.twikoo) {
+    vendorCss('twikoo');
     vendorJs('twikoo', function() {
       var options = Object.assign({}, CONFIG.twikoo);
       options = Object.assign(options, LOCAL.twikoo||{});
