@@ -193,7 +193,7 @@ const postBeauty = function () {
     var caption = element.child('figcaption');
     var comma = '', code = '';
     code_container.find('pre').forEach(function(line) {
-      code += comma + line.innerText;
+      code += comma + line.textContent;
       comma = '\n';
     });
 
