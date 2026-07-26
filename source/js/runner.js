@@ -214,6 +214,111 @@
     }
   }
 
+  // ── 构造主题 vendor 资源 URL（复用 utils.js assetUrl 逻辑） ──
+  function _assetUrl(asset, type) {
+    var str = (typeof CONFIG !== 'undefined' && CONFIG[asset] && CONFIG[asset][type]) || '';
+    if (!str) return '';
+    if (str.indexOf('npm') > -1 || str.indexOf('gh') > -1 || str.indexOf('combine') > -1) {
+      var cdn = (typeof CONFIG !== 'undefined' && CONFIG.cdn) || 'cdn.jsdelivr.net';
+      if (cdn.startsWith('//')) cdn = 'http:' + cdn;
+      if (!cdn.startsWith('http')) cdn = 'http://' + cdn;
+      try { return '//' + new URL(cdn).hostname + '/' + str; } catch (e) { return str; }
+    }
+    return str;
+  }
+
+  // ── 确保 fancybox 资源已加载（CSS + JS），完成后回调 ──
+  function _ensureFancybox(callback) {
+    if (window.jQuery && window.jQuery.fancybox) { callback(); return; }
+
+    var pending = 0;
+    var fired = false;
+    var done = function () {
+      if (fired) return;
+      if (--pending <= 0) { fired = true; callback(); }
+    };
+
+    // CSS
+    if (!window.cssfancybox) {
+      var cssUrl = _assetUrl('css', 'fancybox');
+      if (cssUrl) {
+        pending++;
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = cssUrl;
+        link.onload = done;
+        link.onerror = done;
+        document.head.appendChild(link);
+      }
+      window.cssfancybox = true;
+    }
+
+    // JS（合包含 jQuery + fancybox + justifiedGallery）
+    if (!window.jQuery || !window.jQuery.fancybox) {
+      var jsUrl = _assetUrl('js', 'fancybox');
+      if (jsUrl) {
+        pending++;
+        var script = document.createElement('script');
+        script.src = jsUrl;
+        script.onload = script.onreadystatechange = function (_, isAbort) {
+          if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
+            script.onload = script.onreadystatechange = null;
+            done();
+          }
+        };
+        script.onerror = done;
+        document.head.appendChild(script);
+      }
+    }
+
+    if (pending === 0) callback();
+  }
+
+  // ── 将 runner 输出中的图片集成为 fancybox 灯箱 ──
+  function initRunnerFancybox(container) {
+    var wrappers = container.querySelectorAll('.media-wrapper');
+    var hasImage = false;
+    // 所有 runner 图片共享同一画廊分组，便于跨代码块翻看
+    var groupId = 'runner-gallery';
+
+    for (var i = 0; i < wrappers.length; i++) {
+      var img = wrappers[i].querySelector('img');
+      if (!img) continue;                         // audio / video wrapper
+      if (img.closest('.fancybox')) continue;      // 已包裹
+      if (img.closest('.animation')) continue;     // matplotlib 动画帧
+
+      var src = img.src || img.currentSrc || '';
+      if (!src) continue;
+
+      var a = document.createElement('a');
+      a.className = 'fancybox';
+      a.setAttribute('data-fancybox', groupId);
+      a.href = src;
+      wrappers[i].insertBefore(a, img);
+      a.appendChild(img);
+      hasImage = true;
+    }
+
+    if (!hasImage) return;
+
+    _ensureFancybox(function () {
+      try {
+        var $jq = window.jQuery || window.$;
+        if ($jq && $jq.fancybox) {
+          // 销毁全页 runner-gallery 旧绑定，再统一重新初始化，确保跨代码块翻看
+          $jq('[data-fancybox="runner-gallery"]').off('click.fb-start');
+          $jq('[data-fancybox="runner-gallery"]').fancybox({
+            loop: true,
+            hash: false,
+            helpers: { overlay: { locked: false } }
+          });
+        }
+      } catch (e) {
+        console.debug('[runner] fancybox init failed:', e);
+      }
+    });
+  }
+
   // ── 注入媒体包装样式（一次性，与 highlight.styl 互补） ──
   if (!document.getElementById('runner-media-styles')) {
     var style = document.createElement('style');
@@ -788,6 +893,8 @@
           wrapRunnerMedia(outputCodeEl);
           // matplotlib to_jshtml() 动画：将 runner-time 移入动画控件栏
           fixupAnimationOutput(outputCodeEl);
+          // runner 图片集成 fancybox 灯箱
+          initRunnerFancybox(outputCodeEl);
           statusEl.className = '';
           break;
         }
@@ -899,6 +1006,8 @@
             outputCodeEl.innerHTML = htmlR;
             wrapRunnerMedia(outputCodeEl);
             fixupAnimationOutput(outputCodeEl);
+            // runner 图片集成 fancybox 灯箱
+            initRunnerFancybox(outputCodeEl);
             statusEl.className = '';
           } finally {
             shelter.purge();
