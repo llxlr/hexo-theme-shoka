@@ -868,16 +868,22 @@
               htmlR += '<img src="' + cvs.toDataURL('image/png') + '" style="max-width:100%;" />\n';
             }
 
-            // 返回值：WebR 的 toJs() 对向量返回 { type, values, names } 结构，
-            // 直接 String() 会输出 [object Object]，需提取原始值。
+            // 返回值：仅输出简单原子向量的值，复杂对象（list/数据框/模型等）
+            // 已由 withAutoprint 打印到 stdout，此处跳过避免 [object Object]。
             if (captured.result !== undefined && captured.result !== null) {
               try {
                 var jsVal = await captured.result.toJs();
                 if (jsVal !== undefined && jsVal !== null) {
                   if (typeof jsVal === 'object' && jsVal !== null) {
                     if (jsVal.values && Array.isArray(jsVal.values)) {
-                      // 简单向量（numeric/character/logical 等）：拼接值
-                      htmlR += escapeHtml(jsVal.values.map(String).join(' ')) + '\n';
+                      // 仅当所有元素均为标量时才视为简单向量拼接输出
+                      var isSimple = jsVal.values.every(function (v) {
+                        return typeof v !== 'object' || v === null;
+                      });
+                      if (isSimple) {
+                        htmlR += escapeHtml(jsVal.values.map(String).join(' ')) + '\n';
+                      }
+                      // 复杂嵌套列表跳过：auto-print 已在 stdout 输出文本表示
                     } else {
                       htmlR += escapeHtml(JSON.stringify(jsVal, null, 2)) + '\n';
                     }
